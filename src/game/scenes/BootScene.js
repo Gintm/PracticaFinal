@@ -10,7 +10,7 @@ export default class BootScene extends Scene {
     preload() {
         this.load.image('sky', sky)
         this.load.image('bomb', bomb)
-        // this.load.audio('thud', ['assets/thud.mp3', 'assets/thud.ogg'])
+        this.load.audio('thud', ['assets/thud.mp3', 'assets/thud.ogg'])
     }
 
     create() {
