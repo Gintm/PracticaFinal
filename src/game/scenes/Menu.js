@@ -21,7 +21,7 @@ export default class Menu extends Scene {
       const btnOso = this.add.text(100, 100, 'Minijuego Oso', { fill: '#0f0' });
       btnOso.setInteractive();
       btnOso.on('pointerup', () => this.scene.start('MinijuegoOso'));
-      btnOso.on('pointerdown', );
+      btnOso.on('pointerdown', clickedOso = true );
       //----
     }
     
