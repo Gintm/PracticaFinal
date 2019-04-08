@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import BootScene from './scenes/BootScene'
-import PlayScene from './scenes/PlayScene'
+import PlayScene from './scenes/Menu'
 
 
 function launch() {
@@ -16,7 +16,7 @@ function launch() {
                 debug: false
             }
         },
-        scene: [BootScene, PlayScene]
+        scene: [BootScene, Menu, MinijuegoOso, MinijuegoDelfin, MinijuegoMonos, MinijuegoFinal]
     })
 }
 
