@@ -11,16 +11,16 @@ export default class Menu extends Scene {
     let i = this.add.image(400, 300, 'sky'); //fondo
     console.log(i);
     
-    this.createButton("cosa",400,300,300,100,function(){
+    /*this.createButton("cosa",400,300,300,100,function(){
       this.scene.start('MinijuegoOso');
-    })
+    })*/
 
   }
 
   update () {
   }
 
-  createButton(string,x,y,w,h,callback){
+ /* createButton(string,x,y,w,h,callback){
     var button1 = add.button(x,y,'button',callback,this,2,1,0);
 
     button1.anchor.setTo(0.5,0.5);
@@ -31,5 +31,5 @@ export default class Menu extends Scene {
 
     txt.anchor.setTo(0.5,0.5);
 
-  }
+  }*/
 }

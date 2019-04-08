@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import BootScene from './scenes/BootScene'
-import Menu from './scenes/Menu'
+import Menu from "./scenes/Menu.1";
 import MinijuegoDelfin from './scenes/MinijuegoDelfin'
 import MinijuegoOso from './scenes/MinijuegoOso'
 import MinijuegoMonos from './scenes/MinijuegoMonos'
