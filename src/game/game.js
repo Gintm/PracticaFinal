@@ -1,7 +1,10 @@
 import Phaser from 'phaser'
 import BootScene from './scenes/BootScene'
-import PlayScene from './scenes/Menu'
-
+import Menu from './scenes/Menu'
+import MinijuegoDelfin from './scenes/MinijuegoDelfin'
+import MinijuegoOso from './scenes/MinijuegoOso'
+import MinijuegoMonos from './scenes/MinijuegoMonos'
+import MinijuegoFinal from './scenes/MinijuegoFinal'
 
 function launch() {
     new Phaser.Game({
