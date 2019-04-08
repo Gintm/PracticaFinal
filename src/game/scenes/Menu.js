@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 
 
-export default class PlayScene extends Scene {
+export default class Menu extends Scene {
   constructor () {
     super({ key: 'Menu' });
   }
