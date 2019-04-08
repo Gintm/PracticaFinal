@@ -1,13 +1,13 @@
 import { Scene } from 'phaser';
 
 
-export default class PlayScene extends Scene {
+export default class MinijuegoDelfin extends Scene {
   constructor () {
-    super({ key: 'MinijuegoOso' });
+    super({ key: 'MinijuegoDelfin' });
   }
 
   create () {
-    console.log("Starting MinijuegoOso ...");
+    console.log("Starting MinijuegoDelfin ...");
     let i = this.add.image(400, 300, 'sky'); //fondo
     console.log(i);
     
