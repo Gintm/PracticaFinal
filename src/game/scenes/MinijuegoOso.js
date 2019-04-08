@@ -19,6 +19,10 @@ export default class MinijuegoOso extends Scene {
     bomb.setBounce(1);
     bomb.setVelocity(200, 20);
 
+    const btnOso = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
+    btnOso.setInteractive();
+    btnOso.on('pointerup', () => this.scene.start('Menu'));
+
   }
 
   update () {

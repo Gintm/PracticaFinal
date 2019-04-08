@@ -11,12 +11,20 @@ export default class Menu extends Scene {
     let i = this.add.image(400, 300, 'sky'); //fondo
     console.log(i);
 
-    //Poner una variable booleana que cuando ya hayas pulsado el bvoton se ponga a falase y no te permita pulsar mas, ademas cambiar la imagen a colo gris(?)
-    //Boton oso
-    const btnOso = this.add.text(100, 100, 'Minijuego Oso', { fill: '#0f0' });
-    btnOso.setInteractive();
-    btnOso.on('pointerup', () => this.scene.start('MinijuegoOso'));
-    //----
+    //Poner una variable booleana que cuando ya hayas pulsado el boton se ponga a true y no te permita pulsar mas, ademas cambiar la imagen a colo gris(?)
+    var clickedOso = false;
+    var clickedDelfin = false;
+    var clickedMonos = false;
+
+    if (!clickedOso){
+      //Boton oso
+      const btnOso = this.add.text(100, 100, 'Minijuego Oso', { fill: '#0f0' });
+      btnOso.setInteractive();
+      btnOso.on('pointerup', () => this.scene.start('MinijuegoOso'));
+      btnOso.on('pointerdown', 
+      //----
+    }
+    
     //Boton delfin
     const btnDlf = this.add.text(300, 100, 'Minijuego Delfin', { fill: '#0f0' });
     btnDlf.setInteractive();
