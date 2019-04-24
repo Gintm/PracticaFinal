@@ -5,13 +5,6 @@ export default class MinijuegoOso extends Scene {
   constructor () {
     super({ key: 'MinijuegoOso' });
   }
-  
-
-  preload () {
-    this.load.image('oso', 'assets/oso.png', { frameWidth: 32, frameHeight: 48});
-  }
-
- 
 
   create () {
     console.log("Starting MinijuegoOso ...");
@@ -19,7 +12,8 @@ export default class MinijuegoOso extends Scene {
     console.log(i);
     
 
-    const bomb = this.physics.add.image(400, 200, 'oso1');
+    const bomb = this.physics.add.image(400, 200, 'oso');
+    bomb.setScale(0.05);
     bomb.setCollideWorldBounds(true);
     bomb.body.onWorldBounds = true; // enable worldbounds collision event
     bomb.setBounce(1);
