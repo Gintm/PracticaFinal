@@ -6,18 +6,22 @@ export default class MinijuegoOso extends Scene {
     super({ key: 'MinijuegoOso' });
   }
 
+  preload () {
+    this.load.image('oso', 'assets/oso.png');
+  }
+
   create () {
     console.log("Starting MinijuegoOso ...");
     let i = this.add.image(400, 300, 'sky'); //fondo
     console.log(i);
+    this.add.image(50, 50, 'oso');
     
 
-
-    const bomb = this.physics.add.image(400, 200, 'bomb');
+    /*const bomb = this.physics.add.image(400, 200, 'bomb');
     bomb.setCollideWorldBounds(true);
     bomb.body.onWorldBounds = true; // enable worldbounds collision event
     bomb.setBounce(1);
-    bomb.setVelocity(200, 20);
+    bomb.setVelocity(200, 20);*/
 
     const btnOso = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
     btnOso.setInteractive();
