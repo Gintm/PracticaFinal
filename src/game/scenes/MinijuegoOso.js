@@ -21,6 +21,7 @@ export default class MinijuegoOso extends Scene {
     player.setScale(0.03);
     player.setCollideWorldBounds(true);
     player.setBounce(0.2);
+    player.body.setGravityY(30);
     //bomb.setVelocity(200, 20);
     
     cursors = this.input.keyboard.createCursorKeys();
@@ -42,13 +43,14 @@ export default class MinijuegoOso extends Scene {
     {
       player.setVelocityX(160);
     }
+    else if (cursors.up.isDown && (player.body.onFloor() || player.body.touching.down))
+    {
+      player.setVelocityY(-330);
+    }
     else
     {
       player.setVelocityX(0);
     }
-    if (cursors.up.isDown && player.body.touching.down)
-    {
-      player.setVelocityY(-330);
-    }
+    
   }
 }
