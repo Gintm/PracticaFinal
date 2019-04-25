@@ -1,5 +1,7 @@
 import { Scene } from 'phaser';
 import { platform } from 'os';
+var cursors;
+var player;
 
 
 export default class MinijuegoOso extends Scene {
@@ -15,12 +17,12 @@ export default class MinijuegoOso extends Scene {
     const plataform = this.add.image(200, 300, 'platform');
     plataform.setScale(0.6);
 
-    const player = this.physics.add.image(400, 600, 'oso');
+    player = this.physics.add.image(400, 600, 'oso');
     player.setScale(0.03);
     player.setCollideWorldBounds(true);
     player.setBounce(0.2);
     //bomb.setVelocity(200, 20);
-    var cursors;
+    
     cursors = this.input.keyboard.createCursorKeys();
 
     this.physics.add.collider(player, platform);
@@ -39,12 +41,10 @@ export default class MinijuegoOso extends Scene {
     else if (cursors.right.isDown)
     {
       player.setVelocityX(160);
-      player.anims.play('right', true);
     }
     else
     {
       player.setVelocityX(0);
-      player.anims.play('turn');
     }
     if (cursors.up.isDown && player.body.touching.down)
     {
