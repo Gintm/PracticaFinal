@@ -14,7 +14,7 @@ export default class MinijuegoOso extends Scene {
     let i = this.add.image(400, 300, 'sky'); //fondo
     console.log(i);
     
-    const plataform = this.add.image(200, 300, 'platform');
+    const plataform = this.add.image(200, 500, 'platform');
     plataform.setScale(0.6);
 
     player = this.physics.add.image(400, 600, 'oso');
