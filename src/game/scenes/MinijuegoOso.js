@@ -2,6 +2,8 @@ import { Scene } from 'phaser';
 import { platform } from 'os';
 var cursors;
 var player;
+var platforms;
+var cd;
 
 
 export default class MinijuegoOso extends Scene {
@@ -14,19 +16,30 @@ export default class MinijuegoOso extends Scene {
     let i = this.add.image(400, 300, 'sky'); //fondo
     console.log(i);
     
-    const plataform = this.add.image(200, 500, 'platform');
-    plataform.setScale(0.6);
+    cd = 200;
 
-    player = this.physics.add.image(400, 600, 'oso');
+    //platforms = this.physics.add.staticGroup();
+
+    //const platforms = this.add.image(400, 200, 'platform');
+    //platforms.setScale(0.6);
+
+    platforms = this.physics.add.staticGroup();
+
+    platforms.create(400, 150, 'platform').setScale(0.6).refreshBody();
+    platforms.create(600, 350, 'platform').setScale(0.6).refreshBody();
+    platforms.create(50, 550, 'platform').setScale(0.6).refreshBody();
+    
+
+    player = this.physics.add.image(400, 0, 'oso');
     player.setScale(0.03);
     player.setCollideWorldBounds(true);
-    player.setBounce(0.2);
-    player.body.setGravityY(30);
+    //player.setBounce(0.2);
+    player.setGravityY(100);
     //bomb.setVelocity(200, 20);
     
     cursors = this.input.keyboard.createCursorKeys();
 
-    this.physics.add.collider(player, platform);
+    this.physics.add.collider(player, platforms);
 
     const btnOso = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
     btnOso.setInteractive();
@@ -35,6 +48,7 @@ export default class MinijuegoOso extends Scene {
   }
 
   update () {
+    cd += 1;
     if(cursors.left.isDown)
     {
       player.setVelocityX(-160);
@@ -43,9 +57,11 @@ export default class MinijuegoOso extends Scene {
     {
       player.setVelocityX(160);
     }
-    else if (cursors.up.isDown && (player.body.onFloor() || player.body.touching.down))
+    else if (cursors.up.isDown && cd >= 200)
     {
-      player.setVelocityY(-330);
+      //player.setGravityY(-200);
+      player.setVelocityY(-160);
+      cd = 0;
     }
     else
     {

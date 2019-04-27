@@ -4,7 +4,7 @@ var cursors;
 var player;
 var Bullet = new Phaser.Class({
 
-    Extends: Phaser.GameObject.Image,
+    //Extends: Phaser.GameObject.Image,
 
     initalize:
 
