@@ -54,7 +54,6 @@ export default class MinijuegoOso extends Scene {
     const btnOso = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
     btnOso.setInteractive();
     btnOso.on('pointerup', () => this.scene.start('Menu'));
-
   }
 
   update () {
@@ -75,6 +74,11 @@ export default class MinijuegoOso extends Scene {
     if (cursors.up.isDown && (player.body.touching.down /*|| player.body.onFloor()*/))
     {
       player.setVelocityY(-380);
+    }
+
+    if (player.body.onFloor())
+    {
+      this.scene.start('Menu');
     }
     
     platformsf.setVelocityX(100, 0);
