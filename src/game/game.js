@@ -16,7 +16,8 @@ function launch() {
             default: 'arcade',
             arcade: {
                 //gravity: {y: 300},
-                debug: false
+                debug: false,
+                setBounds: true
             }
         },
         scene: [BootScene, Menu, MinijuegoOso, MinijuegoDelfin, MinijuegoMonos, MinijuegoFinal]
