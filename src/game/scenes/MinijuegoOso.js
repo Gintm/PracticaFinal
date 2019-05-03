@@ -18,7 +18,7 @@ export default class MinijuegoOso extends Scene {
     let i = this.add.image(400, 300, 'sky'); //fondo
     console.log(i);
     
-    cd = 200;
+    cd = 0;
 
     platformsf = this.physics.add.group({immovable: true});
     platformss = this.physics.add.group({immovable: true});
@@ -81,12 +81,43 @@ export default class MinijuegoOso extends Scene {
       this.scene.start('Menu');
     }
     
-    platformsf.setVelocityX(100, 0);
-    platformss.setVelocityX(-100, 0);
-    platformst.setVelocityX(100, 0);
-    platformsf.setVelocityY(30, 0);
-    platformss.setVelocityY(30, 0);
-    platformst.setVelocityY(30, 0);
+    if(cd <= 500)
+    {
+      platformsf.setVelocityX(100, 0);
+      platformss.setVelocityX(-100, 0);
+      platformst.setVelocityX(100, 0);
+      platformsf.setVelocityY(30, 0);
+      platformss.setVelocityY(30, 0);
+      platformst.setVelocityY(30, 0);
+    }
+    else if(cd > 500 && cd <= 1000)
+    {
+      platformsf.setVelocityX(150, 0);
+      platformss.setVelocityX(-150, 0);
+      platformst.setVelocityX(150, 0);
+      platformsf.setVelocityY(50, 0);
+      platformss.setVelocityY(50, 0);
+      platformst.setVelocityY(50, 0);
+    }
+    else if(cd > 1000)
+    {
+      platformsf.setVelocityX(200, 0);
+      platformss.setVelocityX(-200, 0);
+      platformst.setVelocityX(200, 0);
+      platformsf.setVelocityY(80, 0);
+      platformss.setVelocityY(80, 0);
+      platformst.setVelocityY(80, 0);
+    }
+    else
+    {
+      platformsf.setVelocityX(250, 0);
+      platformss.setVelocityX(-250, 0);
+      platformst.setVelocityX(250, 0);
+      platformsf.setVelocityY(110, 0);
+      platformss.setVelocityY(110, 0);
+      platformst.setVelocityY(110, 0);
+    }
+    
 
     this.physics.world.wrap(platformsf, 0);
     this.physics.world.wrap(platformss, 0);
