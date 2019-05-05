@@ -5,6 +5,8 @@ var cursors;
 var player;
 var bullets;
 var tortugas;
+var scoreText;
+var score = 0;
 var lastFired = 0;
 
 export default class MinijuegoDelfin extends Scene {
@@ -18,6 +20,7 @@ export default class MinijuegoDelfin extends Scene {
     console.log("Starting MinijuegoDelfin ...");
     let i = this.add.image(400, 300, 'sky'); //fondo
     console.log(i);
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '24px', fill: '#000' });
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -27,7 +30,6 @@ export default class MinijuegoDelfin extends Scene {
     player.setCollideWorldBounds(true);
 
     //AÑADIR BALAS
-    
     var Bullet = new Phaser.Class({
 
     Extends: Phaser.GameObjects.Image,
@@ -67,10 +69,35 @@ export default class MinijuegoDelfin extends Scene {
     });
 
     //AÑADIR TORTUGAS
+    var max = 10;
+    var min = 5;
+    var rand = Math.floor(Math.random() * (max - min + 1) + min);
+
     tortugas = this.physics.add.group();
+
+    /*tortugas.children.iterate(function (child) {
+
+      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+  
+  });*/
     
     var y = Phaser.Math.RND.between(0, 600);
     tortugas.create(0, y, 'turtle').setScale(0.03);
+
+    this.physics.add.overlap(player, tortugas, collect, null, this);
+
+    function collect (player, tortugas)
+    {
+        tortugas.disableBody(true, true);
+        score += 1;
+        scoreText.setText('Score: ' + score);
+
+        setTimeout(function(){ 
+          var pos_y = Phaser.Math.RND.between(0, 600);
+          tortugas.enableBody(true, 0, pos_y, true, true);
+        }, rand * 1000);
+        console.log(rand * 1000);
+    }
 
     //BOTON PARA VOLVER AL MENU
     const volver = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
@@ -119,5 +146,6 @@ export default class MinijuegoDelfin extends Scene {
 
     //MOVIMIENTO TORTUGAS
     tortugas.setVelocityX(100);
+
   }
 }
