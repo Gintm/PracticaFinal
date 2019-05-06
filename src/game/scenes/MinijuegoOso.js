@@ -6,6 +6,9 @@ var platformsf;
 var platformss;
 var platformst;
 var cd;
+var vXft;
+var vXs
+var vY;
 
 
 export default class MinijuegoOso extends Scene {
@@ -19,6 +22,9 @@ export default class MinijuegoOso extends Scene {
     console.log(i);
     
     cd = 0;
+    vXft = 100;
+    vXs = -100;
+    vY = 30;
 
     platformsf = this.physics.add.group({immovable: true});
     platformss = this.physics.add.group({immovable: true});
@@ -80,42 +86,19 @@ export default class MinijuegoOso extends Scene {
     {
       this.scene.start('Menu');
     }
-    
-    if(cd <= 500)
+
+    platformsf.setVelocityX(vXft, 0);
+    platformss.setVelocityX(vXs, 0);
+    platformst.setVelocityX(vXft, 0);
+    platformsf.setVelocityY(vY, 0);
+    platformss.setVelocityY(vY, 0);
+    platformst.setVelocityY(vY, 0);
+
+    if (cd % 300 == 0)
     {
-      platformsf.setVelocityX(100, 0);
-      platformss.setVelocityX(-100, 0);
-      platformst.setVelocityX(100, 0);
-      platformsf.setVelocityY(30, 0);
-      platformss.setVelocityY(30, 0);
-      platformst.setVelocityY(30, 0);
-    }
-    else if(cd > 500 && cd <= 1000)
-    {
-      platformsf.setVelocityX(150, 0);
-      platformss.setVelocityX(-150, 0);
-      platformst.setVelocityX(150, 0);
-      platformsf.setVelocityY(50, 0);
-      platformss.setVelocityY(50, 0);
-      platformst.setVelocityY(50, 0);
-    }
-    else if(cd > 1000)
-    {
-      platformsf.setVelocityX(200, 0);
-      platformss.setVelocityX(-200, 0);
-      platformst.setVelocityX(200, 0);
-      platformsf.setVelocityY(80, 0);
-      platformss.setVelocityY(80, 0);
-      platformst.setVelocityY(80, 0);
-    }
-    else
-    {
-      platformsf.setVelocityX(250, 0);
-      platformss.setVelocityX(-250, 0);
-      platformst.setVelocityX(250, 0);
-      platformsf.setVelocityY(110, 0);
-      platformss.setVelocityY(110, 0);
-      platformst.setVelocityY(110, 0);
+      vXft = vXft * 1.2;
+      vXs = vXs * 1.2;
+      vY = vY * 1.2;
     }
     
 
