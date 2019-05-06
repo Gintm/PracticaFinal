@@ -5,7 +5,8 @@ import oso from '@/game/assets/oso.png';
 import platform from '@/game/assets/platform.jpg';
 import delfin from '@/game/assets/delfin.png';
 import projectile from '@/game/assets/disparo.png';
-import turtle from '@/game/assets/tortuga.png'
+import turtle from '@/game/assets/tortuga.png';
+import fondo_oso from '@game/assets/fondo_oso.png';
 
 export default class BootScene extends Scene {
     constructor() {
@@ -20,6 +21,7 @@ export default class BootScene extends Scene {
         this.load.image('delfin', delfin);
         this.load.image('projectile', projectile);
         this.load.image('turtle', turtle);
+        this.load.image('fondo_oso', fondo_oso)
         //this.load.audio('thud', ['assets/thud.mp3', 'assets/thud.ogg'])
     }
 

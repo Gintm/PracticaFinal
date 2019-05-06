@@ -18,7 +18,7 @@ export default class MinijuegoOso extends Scene {
 
   create () {
     console.log("Starting MinijuegoOso ...");
-    let i = this.add.image(400, 300, 'sky'); //fondo
+    let i = this.add.image(400, 300, 'fondo_oso').setScale(0.6); //fondo
     console.log(i);
     
     cd = 0;
