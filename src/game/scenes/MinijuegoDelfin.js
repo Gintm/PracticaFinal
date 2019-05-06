@@ -31,41 +31,9 @@ export default class MinijuegoDelfin extends Scene {
     player.setCollideWorldBounds(true);
     player.setInteractive({
       pixelPerfect: true
-  });
+    });
 
     //AÑADIR BALAS
-   /* var Bullet = new Phaser.Class({
-
-    Extends: Phaser.GameObjects.Image,
-
-    initialize:
-
-    function Bullet (scene)
-    {
-        Phaser.GameObjects.Image.call(this, scene, 0, 0, 'projectile');
-        this.speed = Phaser.Math.GetSpeed(400, 1);
-    },
-
-    fire: function (x, y)
-    {
-        this.setPosition(x, y - 50);
-
-        this.setActive(true);
-        this.setVisible(true);
-    },
-
-    update: function (time, delta)
-    {
-        this.y -= this.speed * delta;
-
-        if (this.y < -50)
-        {
-            this.setActive(false);
-            this.setVisible(false);
-        } 
-    }
-    });*/
-
     bullets = this.add.group({
       classType: Bullet,
       maxSize: 7,
@@ -101,7 +69,6 @@ export default class MinijuegoDelfin extends Scene {
           var pos_y = Phaser.Math.RND.between(0, 600);
           tortugas.enableBody(true, 0, pos_y, true, true);
         }, rand * 1000);
-        console.log(rand * 1000);
     }
 
     //AÑADIR BASURA
