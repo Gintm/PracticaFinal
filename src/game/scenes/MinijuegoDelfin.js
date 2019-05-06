@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { Bullet } from "BalaDelfin.js";
+import { Bullet } from '@/game/scenes/BalaDelfin.js';
 
 var cursors;
 var player;
