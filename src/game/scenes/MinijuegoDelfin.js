@@ -64,7 +64,7 @@ export default class MinijuegoDelfin extends Scene {
 
     bullets = this.add.group({
       classType: Bullet,
-      maxSize: 15,
+      maxSize: 7,
       runChildUpdate: true
     });
 
