@@ -1,8 +1,9 @@
 import { Scene } from 'phaser';
-//import { Bullet } from '@/game/scenes/BalaDelfin.js';
+import { Bullet } from "BalaDelfin.js";
 
 var cursors;
 var player;
+var lata;
 var bullets;
 var tortugas;
 var scoreText;
@@ -28,9 +29,12 @@ export default class MinijuegoDelfin extends Scene {
     player = this.physics.add.image(400, 500, 'delfin');
     player.setScale(0.06);
     player.setCollideWorldBounds(true);
+    player.setInteractive({
+      pixelPerfect: true
+  });
 
     //AÑADIR BALAS
-    var Bullet = new Phaser.Class({
+   /* var Bullet = new Phaser.Class({
 
     Extends: Phaser.GameObjects.Image,
 
@@ -60,7 +64,7 @@ export default class MinijuegoDelfin extends Scene {
             this.setVisible(false);
         } 
     }
-    });
+    });*/
 
     bullets = this.add.group({
       classType: Bullet,
@@ -72,7 +76,7 @@ export default class MinijuegoDelfin extends Scene {
     var max = 10;
     var min = 5;
     var rand = Math.floor(Math.random() * (max - min + 1) + min);
-
+    
     tortugas = this.physics.add.group();
 
     /*tortugas.children.iterate(function (child) {
@@ -83,13 +87,14 @@ export default class MinijuegoDelfin extends Scene {
     
     var y = Phaser.Math.RND.between(0, 600);
     tortugas.create(0, y, 'turtle').setScale(0.03);
+    //tortugas.setInteractive(this.input.makePixelPerfect());
 
     this.physics.add.overlap(player, tortugas, collect, null, this);
 
     function collect (player, tortugas)
     {
         tortugas.disableBody(true, true);
-        score += 1;
+        score += 10;
         scoreText.setText('Score: ' + score);
 
         setTimeout(function(){ 
@@ -99,7 +104,17 @@ export default class MinijuegoDelfin extends Scene {
         console.log(rand * 1000);
     }
 
+    //AÑADIR BASURA
+    lata = this.physics.add.image(400, 500, 'lata');
+
     //BOTON PARA VOLVER AL MENU
+
+    var platformsf = this.physics.add.group({immovable: true});
+    var x = Phaser.Math.RND.between(0, 800);
+    platformsf.create(x, 150, 'platform').setScale(0.4);
+
+    this.physics.add.collider(player, platformsf);
+
     const volver = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
     volver.setInteractive();
     volver.on('pointerup', () => this.scene.start('Menu'));
@@ -108,6 +123,8 @@ export default class MinijuegoDelfin extends Scene {
   
   update (time, delta) {
     
+    score += 1;
+
     //MOVIMIENTO PERSONAJE
     if(cursors.left.isDown)
     {
