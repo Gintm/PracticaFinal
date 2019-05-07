@@ -11,7 +11,7 @@ var vXs
 var vY;
 var stars;
 var text;
-var score;
+var timerEvent;
 var randX;
 var randY;
 
@@ -31,7 +31,7 @@ export default class MinijuegoOso extends Scene {
     vXs = -100;
     vY = 30;
 
-    score = this.time.addEvent();
+    timerEvent = this.time.addEvent({delay: 5000});
 
     text = this.add.text(32, 32);
 
@@ -81,6 +81,8 @@ export default class MinijuegoOso extends Scene {
     function collect(player, stars)
     {
       stars.disableBody(true, true);
+      timerEvent += 10;
+      //text.setText('Score: ' + timerEvent.getProgress().toString().substr(0, 4));
 
       setTimeout(function(){
         var pos_y = Phaser.Math.RND.between(50,550);
@@ -91,7 +93,7 @@ export default class MinijuegoOso extends Scene {
   }
 
   update () {
-    text.setText('Score: ' + score.getProgress().toString().substr(0, 4));
+    text.setText('Score: ' + timerEvent.getProgress().toString().substr(0, 4));
     cd += 1;
     if (cursors.left.isDown)
     {
@@ -133,8 +135,6 @@ export default class MinijuegoOso extends Scene {
     if (cd % 200 == 0)
     {
       stars.disableBody(true, true);
-      score += 10;
-      text.setText('Score: ' + score.getProgress().toString().substr(0, 4));
 
       setTimeout(function(){
         var pos_y = Phaser.Math.RND.between(50,550);
