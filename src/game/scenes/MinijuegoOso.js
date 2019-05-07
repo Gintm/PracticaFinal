@@ -9,6 +9,11 @@ var cd;
 var vXft;
 var vXs
 var vY;
+var stars;
+var text;
+var score;
+var randX;
+var randY;
 
 
 export default class MinijuegoOso extends Scene {
@@ -25,6 +30,10 @@ export default class MinijuegoOso extends Scene {
     vXft = 100;
     vXs = -100;
     vY = 30;
+
+    score = this.time.addEvent();
+
+    text = this.add.text(32, 32);
 
     platformsf = this.physics.add.group({immovable: true});
     platformss = this.physics.add.group({immovable: true});
@@ -60,9 +69,29 @@ export default class MinijuegoOso extends Scene {
     const btnOso = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
     btnOso.setInteractive();
     btnOso.on('pointerup', () => this.scene.start('Menu'));
+
+    randX = Phaser.Math.RND.between(50, 750);
+    randY = Phaser.Math.RND.between(50, 550);
+
+    stars = this.physics.add.image(randX, randY, 'osito');
+    stars.setScale(0.05); 
+
+    this.physics.add.overlap(player, stars, collect, null, this);
+
+    function collect(player, stars)
+    {
+      stars.disableBody(true, true);
+
+      setTimeout(function(){
+        var pos_y = Phaser.Math.RND.between(50,550);
+        var pos_x = Phaser.Math.RND.between(50, 750);
+        stars.enableBody(true, pos_x, pos_y, true, true);
+      }, 5000);
+    }
   }
 
   update () {
+    text.setText('Score: ' + score.getProgress().toString().substr(0, 4));
     cd += 1;
     if (cursors.left.isDown)
     {
@@ -100,10 +129,34 @@ export default class MinijuegoOso extends Scene {
       vXs = vXs * 1.2;
       vY = vY * 1.2;
     }
+
+    if (cd % 200 == 0)
+    {
+      stars.disableBody(true, true);
+      score += 10;
+      text.setText('Score: ' + score.getProgress().toString().substr(0, 4));
+
+      setTimeout(function(){
+        var pos_y = Phaser.Math.RND.between(50,550);
+        var pos_x = Phaser.Math.RND.between(50, 750);
+        stars.enableBody(true, pos_x, pos_y, true, true);
+      }, 10000);
+    }
+
+    
+    
+
+    /*if (cd % 250 == 0 || )
+    {
+      stars.destroy();
+    }*/
     
 
     this.physics.world.wrap(platformsf, 0);
     this.physics.world.wrap(platformss, 0);
     this.physics.world.wrap(platformst, 0);
+
+    
+    
   }
 }
