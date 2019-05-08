@@ -9,9 +9,9 @@ var cd;
 var vXft;
 var vXs
 var vY;
-var stars;
+var ositos;
 var text;
-var timerEvent;
+var score;
 var randX;
 var randY;
 
@@ -27,13 +27,15 @@ export default class MinijuegoOso extends Scene {
     console.log(i);
     
     cd = 0;
+    score = 0;
     vXft = 100;
     vXs = -100;
     vY = 30;
 
-    timerEvent = this.time.addEvent({delay: 5000});
+    text = this.add.text(32,32, 'Score: 0');
+    //timerEvent = this.time.addEvent({delay: 5000});
 
-    text = this.add.text(32, 32);
+    //timeText = this.add.text(32, 32);
 
     platformsf = this.physics.add.group({immovable: true});
     platformss = this.physics.add.group({immovable: true});
@@ -73,28 +75,30 @@ export default class MinijuegoOso extends Scene {
     randX = Phaser.Math.RND.between(50, 750);
     randY = Phaser.Math.RND.between(50, 550);
 
-    stars = this.physics.add.image(randX, randY, 'osito');
-    stars.setScale(0.05); 
+    ositos = this.physics.add.image(randX, randY, 'osito');
+    ositos.setScale(0.05); 
 
-    this.physics.add.overlap(player, stars, collect, null, this);
+    this.physics.add.overlap(player, ositos, collect, null, this);
 
-    function collect(player, stars)
+    function collect(player, ositos)
     {
-      stars.disableBody(true, true);
-      timerEvent += 10;
+      ositos.disableBody(true, true);
+      
+      score += 1000000;
       //text.setText('Score: ' + timerEvent.getProgress().toString().substr(0, 4));
 
       setTimeout(function(){
         var pos_y = Phaser.Math.RND.between(50,550);
         var pos_x = Phaser.Math.RND.between(50, 750);
-        stars.enableBody(true, pos_x, pos_y, true, true);
+        ositos.enableBody(true, pos_x, pos_y, true, true);
       }, 5000);
     }
   }
 
   update () {
-    text.setText('Score: ' + timerEvent.getProgress().toString().substr(0, 4));
+    text.setText('Score: ' + score/100000);
     cd += 1;
+    score += 1000;
     if (cursors.left.isDown)
     {
       player.setVelocityX(-160);
@@ -134,22 +138,14 @@ export default class MinijuegoOso extends Scene {
 
     if (cd % 200 == 0)
     {
-      stars.disableBody(true, true);
+      ositos.disableBody(true, true);
 
       setTimeout(function(){
         var pos_y = Phaser.Math.RND.between(50,550);
         var pos_x = Phaser.Math.RND.between(50, 750);
-        stars.enableBody(true, pos_x, pos_y, true, true);
+        ositos.enableBody(true, pos_x, pos_y, true, true);
       }, 10000);
     }
-
-    
-    
-
-    /*if (cd % 250 == 0 || )
-    {
-      stars.destroy();
-    }*/
     
 
     this.physics.world.wrap(platformsf, 0);
