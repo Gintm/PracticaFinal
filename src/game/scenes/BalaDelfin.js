@@ -12,7 +12,7 @@ var Bullet = new Phaser.Class({
 
     fire: function (x, y)
     {
-        this.setPosition(x, y - 50);
+        this.setPosition(x, y - 75);
 
         this.setActive(true);
         this.setVisible(true);

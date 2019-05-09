@@ -20,9 +20,7 @@ export default class MinijuegoMonos extends Scene {
     mono1.setScale(0.06);
     mono2 = this.physics.add.image(400, 500, 'mono2');
     mono2.setScale(0.06);
-
-
-
+  }
 
   update () {
   }
