@@ -12,6 +12,9 @@ var scoreText;
 var score = 0;
 var lastFired = 0;
 var totalTurtles = 0;
+var numLatas = 2;
+var vidasDelfin;
+var lata;
 
 export default class MinijuegoDelfin extends Scene {
   constructor () {
@@ -32,9 +35,8 @@ export default class MinijuegoDelfin extends Scene {
     player = this.physics.add.image(400, 500, 'delfin');
     player.setScale(0.06);
     player.setCollideWorldBounds(true);
-    player.setInteractive({
-      pixelPerfect: true
-    });
+
+    vidasDelfin = 3;
 
     //AÑADIR BALAS
     bullets = this.add.group({
@@ -73,11 +75,31 @@ export default class MinijuegoDelfin extends Scene {
     }
 
     //AÑADIR BASURA
-
     latas = this.physics.add.group();
 
-    var x = Phaser.Math.RND.between(0, 800);
-    latas.create(x, 0, 'lata').setScale(0.06);
+    for(var l = 0; l < numLatas; l++)
+    {
+          var x = Phaser.Math.RND.between(0, 800);
+          lata = latas.create(x, 0, 'lata').setScale(0.05);
+    }
+
+    console.log(lata.y);
+    
+
+
+    //JUGADOR ES GOLPEADO
+    this.physics.add.collider(player, latas, hit, null, this);
+
+    function hit (player, lata)
+    {
+        lata.disableBody(true, true);
+        vidasDelfin -= 1;
+        
+        setTimeout(function(){ 
+          var pos_x = Phaser.Math.RND.between(0, 800);
+          lata.enableBody(true, pos_x, 0, true, true);
+        }, 2000);
+    }
     
 
     //BOTON PARA VOLVER AL MENU
@@ -141,19 +163,43 @@ export default class MinijuegoDelfin extends Scene {
     //MOVIMIENTO TORTUGAS
     tortugas.setVelocityX(100);
 
-    if(tortugas.getChildren()[0].x > 800)
+    var tortugas_grupo = tortugas.getChildren();
+    for(var i = 0; i < tortugas_grupo.length; i++)
     {
-      tortugas.disableBody();
+      var tortuga = tortugas_grupo[i];
+      if(tortuga.x > 800)
+      {
+        tortuga.disableBody(true, true);
 
-     that.setTimeout(function(){ 
-      var pos_y = Phaser.Math.RND.between(0, 600);
-      tortugas.enableBody(true, 0, pos_y, true, true);
-    }, rand * 1000);
+        setTimeout(function(){ 
+          var pos_y = Phaser.Math.RND.between(0, 600);
+          tortuga.enableBody(true, -40, pos_y, true, true);
+        }, rand * 1000 / 2);
+      }
+    }
 
-     }
-     
     //MOVIMIENTO BASURA
     latas.setVelocityY(100);
 
+    if(vidasDelfin == 0)
+    {
+      this.physics.pause();
+      this.scene.start('Menu');
+    }
+
+    let latas2 = latas.getChildren();
+    for (let i=0; i< latas2.length; i++)
+    {
+        let lat = latas2[i];
+        if(lat.y > 600)
+        {
+          lat.disableBody(true, true);
+        
+          setTimeout(function(){ 
+            var pos_x = Phaser.Math.RND.between(0, 800);
+            lat.enableBody(true, pos_x, -20, true, true);
+          }, 2000);
+        }
+    }
   }
 }
