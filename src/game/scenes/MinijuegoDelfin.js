@@ -16,7 +16,6 @@ var numLatas = 2;
 var vidasDelfin;
 var lata;
 var velocidad_latas;
-var basura_destruida = 0;
 var incremento_dificultad = 0;
 
 export default class MinijuegoDelfin extends Scene {
@@ -110,7 +109,6 @@ export default class MinijuegoDelfin extends Scene {
     function hit (bullets, lata)
     {
         lata.disableBody(true, true);
-        basura_destruida += 1;
 
         setTimeout(function(){ 
           var pos_x = Phaser.Math.RND.between(0, 800);
@@ -137,8 +135,10 @@ export default class MinijuegoDelfin extends Scene {
     
     var that = this;
     var segundos = Math.round(time / 1000);
-    score = segundos + totalTurtles + basura_destruida;
+    score = segundos + totalTurtles;
     scoreText.setText('Score: ' + score);
+
+    incremento_dificultad += 1;
 
     //MOVIMIENTO PERSONAJE
     if(cursors.left.isDown)
@@ -195,7 +195,7 @@ export default class MinijuegoDelfin extends Scene {
     }
 
     //MOVIMIENTO BASURA
-    latas.setVelocityY(velocidad_latas);
+    latas.setVelocityY(velocidad_latas, 0);
 
     let latas2 = latas.getChildren();
     for (let i=0; i< latas2.length; i++)
@@ -212,10 +212,10 @@ export default class MinijuegoDelfin extends Scene {
         }
     }
 
-    //AUMENTO CANTIDAD
-    if(score % 50 == 0)
+    //AUMENTO CANTIDAD Y VELOCIDAD BASURA
+    if(incremento_dificultad % 300 == 0)
     {
-      velocidad_latas =  velocidad_latas * 1.05;
+      velocidad_latas =  velocidad_latas * 1.1;
     }
 
     //PERDER PARTIDA
