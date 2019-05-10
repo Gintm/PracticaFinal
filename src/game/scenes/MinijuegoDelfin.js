@@ -15,8 +15,10 @@ var totalTurtles = 0;
 var numLatas = 2;
 var vidasDelfin;
 var lata;
+var corazones;
 var velocidad_latas = 100;
 var incremento_dificultad = 0;
+var total_corazones;
 
 export default class MinijuegoDelfin extends Scene {
   constructor () {
@@ -38,7 +40,19 @@ export default class MinijuegoDelfin extends Scene {
     player.setScale(0.06);
     player.setCollideWorldBounds(true);
 
+    //AÑADIR VIDAS JUGADOR
     vidasDelfin = 3;
+    var corazones_padding = 32;
+    
+    corazones = this.physics.add.group();
+
+    for(var j = 0; j < vidasDelfin; j++)
+    {
+        corazones.create(corazones_padding, 575, 'corazon').setScale(0.05);
+        corazones_padding += 32;
+    }
+
+    total_corazones = corazones.getLength();
 
     //AÑADIR BALAS
     bullets = this.physics.add.group({
@@ -216,11 +230,22 @@ export default class MinijuegoDelfin extends Scene {
       velocidad_latas =  velocidad_latas * 1.1;
     }
 
+    //REDUCIR VIDAS
+    var conjunto_corazones = corazones.getChildren();
+    
+    if(vidasDelfin < total_corazones)
+    {
+        var corazon_aux = conjunto_corazones[total_corazones - 1];
+        corazon_aux.disableBody(true, true);
+        total_corazones -= 1;
+    }
+
+
     //PERDER PARTIDA
     if(vidasDelfin == 0)
     {
-      this.physics.pause();
-      this.scene.start('Menu');
+       this.physics.pause();
+       this.scene.start('Menu');
     }
   }
 }
