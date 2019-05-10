@@ -15,7 +15,7 @@ var totalTurtles = 0;
 var numLatas = 2;
 var vidasDelfin;
 var lata;
-var velocidad_latas;
+var velocidad_latas = 100;
 var incremento_dificultad = 0;
 
 export default class MinijuegoDelfin extends Scene {
@@ -43,11 +43,9 @@ export default class MinijuegoDelfin extends Scene {
     //AÑADIR BALAS
     bullets = this.physics.add.group({
       classType: Bullet,
-      maxSize: 7,
+      maxSize: 10,
       runChildUpdate: true
     });
-
-
 
     //AÑADIR TORTUGAS
     var max = 10;
@@ -86,8 +84,6 @@ export default class MinijuegoDelfin extends Scene {
           var x = Phaser.Math.RND.between(0, 800);
           lata = latas.create(x, 0, 'lata').setScale(0.05);
     }
-
-    velocidad_latas = 100;
 
     //JUGADOR ES GOLPEADO
     this.physics.add.collider(player, latas, get_hit, null, this);
@@ -215,6 +211,8 @@ export default class MinijuegoDelfin extends Scene {
     //AUMENTO CANTIDAD Y VELOCIDAD BASURA
     if(incremento_dificultad % 300 == 0)
     {
+      var x = Phaser.Math.RND.between(0, 800);
+      lata = latas.create(x, 0, 'lata').setScale(0.05);
       velocidad_latas =  velocidad_latas * 1.1;
     }
 
