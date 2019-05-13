@@ -1,8 +1,8 @@
 import { Scene } from 'phaser';
 
-    var clickedOso = true;
-    var clickedDelfin = true;
-    var clickedMonos = true;
+    var clickedOso = false;
+    var clickedDelfin = false;
+    var clickedMonos = false;
 
 
 export default class Menu extends Scene {

@@ -19,6 +19,7 @@ var corazones;
 var velocidad_latas = 100;
 var incremento_dificultad = 0;
 var total_corazones;
+var lata_caida = false;
 
 export default class MinijuegoDelfin extends Scene {
   constructor () {
@@ -207,20 +208,37 @@ export default class MinijuegoDelfin extends Scene {
     //MOVIMIENTO BASURA
     latas.setVelocityY(velocidad_latas, 0);
 
-    let latas2 = latas.getChildren();
-    for (let i=0; i< latas2.length; i++)
+    var latas2 = latas.getChildren();
+    var i = 0;
+    var latas_long = latas.getLength();
+    console.log(latas_long);
+
+    while(i < latas_long && !lata_caida)
     {
-        let lat = latas2[i];
-        if(lat.y > 600)
+      var lat = latas2[i];
+
+      if(lat.y > 600)
         {
           lat.disableBody(true, true);
-        
+          lata_caida = true;
+
+          if(lata_caida)
+          {
+            vidasDelfin -= 1;
+          }
+
           setTimeout(function(){ 
             var pos_x = Phaser.Math.RND.between(0, 800);
             lat.enableBody(true, pos_x, -50, true, true);
+            lata_caida = false;
           }, 2000);
         }
+        i++;
     }
+
+
+        
+
 
     //AUMENTO CANTIDAD Y VELOCIDAD BASURA
     if(incremento_dificultad % 300 == 0)
