@@ -1,8 +1,8 @@
 import { Scene } from 'phaser';
 
-    var clickedOso = false;
-    var clickedDelfin = false;
-    var clickedMonos = false;
+    var clickedOso = true;
+    var clickedDelfin = true;
+    var clickedMonos = true;
 
 
 export default class Menu extends Scene {
@@ -53,6 +53,11 @@ export default class Menu extends Scene {
       const btnMono = this.add.text(500, 100, 'Minijuego Monos', { fill: '#fff' });
     }
     //----
+
+    if(clickedDelfin == true && clickedMonos == true && clickedOso == true)
+    {
+      this.scene.start('MinijuegoFinal');
+    }
 
   }
 

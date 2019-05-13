@@ -9,6 +9,9 @@ var platanos;
 var scoreText;
 var score = 0;
 var lastFired = 0;
+var mono1;
+var mono2;
+var rand;
 
 export default class MinijuegoMonos extends Scene {
   constructor () {
@@ -41,11 +44,15 @@ export default class MinijuegoMonos extends Scene {
 
     //Añadir Leñador
     enemigo = this.physics.add.image(400,500,'lenyador')
+
+    const volver = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
+    volver.setInteractive();
+    volver.on('pointerup', () => this.scene.start('Menu'));
     
   }
   update (time, delta) {
     //Disparo mono izquierda
-    if(cursors.left.isDown)
+    /*if(cursors.left.isDown)
     {
       
     }
@@ -60,7 +67,7 @@ export default class MinijuegoMonos extends Scene {
     else if(cursors.E.isDown)
     {
 
-    }
+    }*/
     //Disparo mono derecha
   }
 }
