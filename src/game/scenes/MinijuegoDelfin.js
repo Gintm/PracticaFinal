@@ -57,7 +57,7 @@ export default class MinijuegoDelfin extends Scene {
     //AÑADIR BALAS
     bullets = this.physics.add.group({
       classType: Bullet,
-      maxSize: 10,
+      maxSize: 15,
       runChildUpdate: true
     });
 
