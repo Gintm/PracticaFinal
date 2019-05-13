@@ -15,6 +15,7 @@ import mono1 from '@/game/assets/mono.png';
 import platanos from '@/game/assets/platanos7.png';
 import lata from '@/game/assets/lata.png';
 import corazon from '@/game/assets/heart.png';
+import osito from '@/game/assets/osito.png';
 
 export default class BootScene extends Scene {
     constructor() {
@@ -38,6 +39,7 @@ export default class BootScene extends Scene {
         this.load.image('platanos', platanos);
         this.load.image('lata', lata);
         this.load.image('corazon', corazon);
+        this.load.image('osito', osito);
         //this.load.audio('thud', ['assets/thud.mp3', 'assets/thud.ogg'])
     }
 
