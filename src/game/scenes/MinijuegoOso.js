@@ -87,7 +87,7 @@ export default class MinijuegoOso extends Scene {
     {
       ositos.disableBody(true, true);
       
-      score += 100;
+      score += 1000000;
     
       setTimeout(function(){
         var pos_y = Phaser.Math.RND.between(50,550);
@@ -99,10 +99,10 @@ export default class MinijuegoOso extends Scene {
 
   update (time, delta) {
     // Actualizar score
-    text.setText('Score: ' + score);
+    text.setText('Score: ' + score/100000);
     cd += 1;
-    //score += 1000;
-    score = Math.round(time / 1000);
+    score += 1000;
+    //score = Math.round(time / 1000);
 
     // Cursores
     if (cursors.left.isDown)
