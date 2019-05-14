@@ -53,6 +53,6 @@ export default class BootScene extends Scene {
     }
 
     create() { 
-        this.scene.switch('Menu')
+        this.scene.start('Menu')
     }
 }

@@ -14,6 +14,7 @@ var lastFired = 0;
 var totalTurtles = 0;
 var numbasuras = 1;
 var numBotellas = 1;
+var numBolsas = 1;
 var vidasDelfin;
 var basura;
 var botellas;
@@ -60,7 +61,7 @@ export default class MinijuegoDelfin extends Scene {
     //AÑADIR BALAS
     bullets = this.physics.add.group({
       classType: Bullet,
-      maxSize: 15,
+      maxSize: 9,
       runChildUpdate: true
     });
 
@@ -96,18 +97,22 @@ export default class MinijuegoDelfin extends Scene {
     //AÑADIR BASURA
     basura = this.physics.add.group();
 
-
-
     for(var l = 0; l < numbasuras; l++)
     {
       var x = Phaser.Math.RND.between(0, 800);
-      var b = basura.create(x, 0, 'lata').setScale(0.05);
+      basura.create(x, 0, 'lata').setScale(0.05);
     }
 
     for(var l = 0; l < numBotellas; l++)
     {
       var x = Phaser.Math.RND.between(0, 800);
-      var b =  basura.create(x, 0, 'botella').setScale(0.05);
+      basura.create(x, 0, 'botella').setScale(0.05);
+    }
+
+    for(var l = 0; l < numBolsas; l++)
+    {
+      var x = Phaser.Math.RND.between(0, 800);
+      basura.create(x, 0, 'bolsa').setScale(0.05);
     }
 
     //JUGADOR ES GOLPEADO
@@ -124,7 +129,7 @@ export default class MinijuegoDelfin extends Scene {
         }, 2000);
     }
 
-    //BALA GOLPEA BASURA
+    //BALA GOLPEA BASURA Y A TORTUGAS
     this.physics.add.collider(bullets, basura, hit, null, this);
 
     function hit (bullets, basura)
@@ -136,6 +141,19 @@ export default class MinijuegoDelfin extends Scene {
           basura.enableBody(true, pos_x, 0, true, true);
         }, 2000);
     }
+    
+    this.physics.add.overlap(bullets, tortugas, hit_t, null, this);
+
+    function hit_t (bullets, tortugas)
+    {
+        tortugas.disableBody(true, true);
+
+        setTimeout(function(){ 
+          var pos_y = Phaser.Math.RND.between(0, 600);
+          tortugas.enableBody(true, 0, pos_y, true, true);
+        }, rand * 1000);
+    }
+
 
     //BOTON PARA VOLVER AL MENU
 
@@ -164,19 +182,19 @@ export default class MinijuegoDelfin extends Scene {
     //MOVIMIENTO PERSONAJE
     if(cursors.left.isDown)
     {
-      player.setVelocityX(-300);
+      player.setVelocityX(-450);
     }
     else if (cursors.right.isDown)
     {
-      player.setVelocityX(300);
+      player.setVelocityX(450);
     }
     else if (cursors.up.isDown)
     {
-      player.setVelocityY(-300);
+      player.setVelocityY(-450);
     }
     else if(cursors.down.isDown)
     {
-      player.setVelocityY(300);
+      player.setVelocityY(450);
     }
     else
     {
@@ -235,23 +253,26 @@ export default class MinijuegoDelfin extends Scene {
           {
             vidasDelfin -= 1;
           }
+          
 
           setTimeout(function(){ 
             var pos_x = Phaser.Math.RND.between(0, 800);
             bas.enableBody(true, pos_x, -50, true, true);
-            basura_caida = false;
           }, 2000);
         }
+        basura_caida = false;
         i++;
     }
 
   
     //AUMENTO CANTIDAD Y VELOCIDAD BASURA
-    if(incremento_dificultad % 300 == 0)
+    if(incremento_dificultad % 3000 == 0)
     {
       var x = Phaser.Math.RND.between(0, 800);
-      basura.create(x, 0, 'basura').setScale(0.05);
-      velocidad_basura =  velocidad_basura * 1.1;
+      basura.create(x, 0, 'botella').setScale(0.05);
+      basura.create(x, 0, 'bolsa').setScale(0.05);
+      basura.create(x, 0, 'lata').setScale(0.05);
+      velocidad_basura =  velocidad_basura * 1.05;
     }
 
     //REDUCIR VIDAS
@@ -264,9 +285,7 @@ export default class MinijuegoDelfin extends Scene {
         total_corazones -= 1;
     }
 
-
     //PERDER PARTIDA
-    console.log(vidasDelfin);
     if(vidasDelfin == 0)
     {
        this.scene.switch('Menu');
