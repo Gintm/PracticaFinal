@@ -4,7 +4,7 @@ import { Bullet } from '@/game/scenes/BalaDelfin.js';
 var y;
 var cursors;
 var player;
-var latas;
+var basura;
 var rand;
 var bullets;
 var tortugas;
@@ -12,14 +12,16 @@ var scoreText;
 var score = 0;
 var lastFired = 0;
 var totalTurtles = 0;
-var numLatas = 2;
+var numbasuras = 1;
+var numBotellas = 1;
 var vidasDelfin;
-var lata;
+var basura;
+var botellas;
 var corazones;
-var velocidad_latas = 100;
+var velocidad_basura = 100;
 var incremento_dificultad = 0;
 var total_corazones;
-var lata_caida = false;
+var basura_caida = false;
 
 export default class MinijuegoDelfin extends Scene {
   constructor () {
@@ -30,7 +32,7 @@ export default class MinijuegoDelfin extends Scene {
 
     //PREPARANDO ESCENA
     console.log("Starting MinijuegoDelfin ...");
-    let i = this.add.image(400, 300, 'sky'); //fondo
+    let i = this.add.image(400, 300, 'fondo_delfin'); //fondo
     console.log(i);
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#000' });
 
@@ -92,38 +94,46 @@ export default class MinijuegoDelfin extends Scene {
     }
 
     //AÑADIR BASURA
-    latas = this.physics.add.group();
+    basura = this.physics.add.group();
 
-    for(var l = 0; l < numLatas; l++)
+
+
+    for(var l = 0; l < numbasuras; l++)
     {
-          var x = Phaser.Math.RND.between(0, 800);
-          lata = latas.create(x, 0, 'lata').setScale(0.05);
+      var x = Phaser.Math.RND.between(0, 800);
+      var b = basura.create(x, 0, 'lata').setScale(0.05);
+    }
+
+    for(var l = 0; l < numBotellas; l++)
+    {
+      var x = Phaser.Math.RND.between(0, 800);
+      var b =  basura.create(x, 0, 'botella').setScale(0.05);
     }
 
     //JUGADOR ES GOLPEADO
-    this.physics.add.collider(player, latas, get_hit, null, this);
+    this.physics.add.collider(player, basura, get_hit, null, this);
 
-    function get_hit (player, lata)
+    function get_hit (player, basura)
     {
-        lata.disableBody(true, true);
+        basura.disableBody(true, true);
         vidasDelfin -= 1;
         
         setTimeout(function(){ 
           var pos_x = Phaser.Math.RND.between(0, 800);
-          lata.enableBody(true, pos_x, 0, true, true);
+          basura.enableBody(true, pos_x, 0, true, true);
         }, 2000);
     }
 
     //BALA GOLPEA BASURA
-    this.physics.add.collider(bullets, latas, hit, null, this);
+    this.physics.add.collider(bullets, basura, hit, null, this);
 
-    function hit (bullets, lata)
+    function hit (bullets, basura)
     {
-        lata.disableBody(true, true);
+      basura.disableBody(true, true);
 
         setTimeout(function(){ 
           var pos_x = Phaser.Math.RND.between(0, 800);
-          lata.enableBody(true, pos_x, 0, true, true);
+          basura.enableBody(true, pos_x, 0, true, true);
         }, 2000);
     }
 
@@ -206,46 +216,42 @@ export default class MinijuegoDelfin extends Scene {
     }
 
     //MOVIMIENTO BASURA
-    latas.setVelocityY(velocidad_latas, 0);
+    basura.setVelocityY(velocidad_basura, 0);
 
-    var latas2 = latas.getChildren();
+    var basuras2 = basura.getChildren();
     var i = 0;
-    var latas_long = latas.getLength();
-    console.log(latas_long);
+    var basuras_long = basura.getLength();
 
-    while(i < latas_long && !lata_caida)
+    while(i < basuras_long && !basura_caida)
     {
-      var lat = latas2[i];
+      var bas = basuras2[i];
 
-      if(lat.y > 600)
+      if(bas.y > 600)
         {
-          lat.disableBody(true, true);
-          lata_caida = true;
+          bas.disableBody(true, true);
+          basura_caida = true;
 
-          if(lata_caida)
+          if(basura_caida)
           {
             vidasDelfin -= 1;
           }
 
           setTimeout(function(){ 
             var pos_x = Phaser.Math.RND.between(0, 800);
-            lat.enableBody(true, pos_x, -50, true, true);
-            lata_caida = false;
+            bas.enableBody(true, pos_x, -50, true, true);
+            basura_caida = false;
           }, 2000);
         }
         i++;
     }
 
-
-        
-
-
+  
     //AUMENTO CANTIDAD Y VELOCIDAD BASURA
     if(incremento_dificultad % 300 == 0)
     {
       var x = Phaser.Math.RND.between(0, 800);
-      lata = latas.create(x, 0, 'lata').setScale(0.05);
-      velocidad_latas =  velocidad_latas * 1.1;
+      basura.create(x, 0, 'basura').setScale(0.05);
+      velocidad_basura =  velocidad_basura * 1.1;
     }
 
     //REDUCIR VIDAS
@@ -260,10 +266,10 @@ export default class MinijuegoDelfin extends Scene {
 
 
     //PERDER PARTIDA
+    console.log(vidasDelfin);
     if(vidasDelfin == 0)
     {
-       this.physics.pause();
-       this.scene.start('Menu');
+       this.scene.switch('Menu');
     }
   }
 }

@@ -125,7 +125,7 @@ export default class MinijuegoOso extends Scene {
 
     if (player.body.onFloor())
     {
-      this.scene.start('Menu');
+      this.scene.switch('Menu');
     }
 
     // Velocidad plataformas

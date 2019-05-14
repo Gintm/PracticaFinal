@@ -47,7 +47,7 @@ export default class MinijuegoMonos extends Scene {
 
     const volver = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
     volver.setInteractive();
-    volver.on('pointerup', () => this.scene.start('Menu'));
+    volver.on('pointerup', () => this.scene.switch('Menu'));
     
   }
   update (time, delta) {

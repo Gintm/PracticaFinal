@@ -18,6 +18,9 @@ import corazon from '@/game/assets/heart.png';
 import osito from '@/game/assets/osito.png';
 import fondo_fabrica from '@/game/assets/fondo4.png';
 import hielito from '@/game/assets/Hielo.png';
+import botella from '@/game/assets/Botella.png';
+import bolsa from '@/game/assets/Bolsa.png';
+
 
 export default class BootScene extends Scene {
     constructor() {
@@ -44,10 +47,12 @@ export default class BootScene extends Scene {
         this.load.image('osito', osito);
         this.load.image('fondo_fabrica', fondo_fabrica);
         this.load.image('hielito', hielito);
+        this.load.image('botella', botella);
+        this.load.image('bolsa', bolsa);
         //this.load.audio('thud', ['assets/thud.mp3', 'assets/thud.ogg'])
     }
 
     create() { 
-        this.scene.start('Menu')
+        this.scene.switch('Menu')
     }
 }
