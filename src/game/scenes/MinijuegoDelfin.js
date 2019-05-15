@@ -24,6 +24,7 @@ var incremento_dificultad = 0;
 var total_corazones;
 var basura_caida = false;
 
+
 export default class MinijuegoDelfin extends Scene {
   constructor () {
     super({ key: 'MinijuegoDelfin' });
@@ -32,7 +33,6 @@ export default class MinijuegoDelfin extends Scene {
   create () {
     //PREPARANDO ESCENA
     console.log("Starting MinijuegoDelfin ...");
-    console.log(score);
     let i = this.add.image(400, 300, 'fondo_delfin'); //         
     console.log(i);
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#000' });
@@ -174,7 +174,9 @@ export default class MinijuegoDelfin extends Scene {
   
   update (time, delta) {
 
-    var segundos = Math.round(time);
+
+
+    var segundos = Math.round();
     score = segundos + totalTurtles;
     scoreText.setText('Score: ' + score);
 
