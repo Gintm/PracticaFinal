@@ -9,9 +9,9 @@ var rand;
 var bullets;
 var tortugas;
 var scoreText;
-var score = 0;
+var score;
 var lastFired = 0;
-var totalTurtles = 0;
+var totalTurtles;
 var numbasuras = 1;
 var numBotellas = 1;
 var numBolsas = 1;
@@ -30,12 +30,14 @@ export default class MinijuegoDelfin extends Scene {
   }
 
   create () {
-
     //PREPARANDO ESCENA
     console.log("Starting MinijuegoDelfin ...");
-    let i = this.add.image(400, 300, 'fondo_delfin'); //fondo
+    console.log(score);
+    let i = this.add.image(400, 300, 'fondo_delfin'); //         
     console.log(i);
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#000' });
+    score = 0;
+    totalTurtles = 0;                      
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -166,14 +168,13 @@ export default class MinijuegoDelfin extends Scene {
 
     const volver = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
     volver.setInteractive();
-    volver.on('pointerup', () => this.scene.start('Menu'));
+    volver.on('pointerup', () => this.scene.switch('Menu'));
 
   }
   
   update (time, delta) {
-    
-    var that = this;
-    var segundos = Math.round(time / 1000);
+
+    var segundos = Math.round(time);
     score = segundos + totalTurtles;
     scoreText.setText('Score: ' + score);
 
@@ -253,14 +254,13 @@ export default class MinijuegoDelfin extends Scene {
           {
             vidasDelfin -= 1;
           }
-          
-
           setTimeout(function(){ 
             var pos_x = Phaser.Math.RND.between(0, 800);
             bas.enableBody(true, pos_x, -50, true, true);
+            basura_caida = false;
           }, 2000);
         }
-        basura_caida = false;
+
         i++;
     }
 

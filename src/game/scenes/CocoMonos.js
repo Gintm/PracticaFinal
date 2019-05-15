@@ -1,10 +1,10 @@
-var Coco = new Phaser.Class({
+var Cocos = new Phaser.Class({
 
     Extends: Phaser.GameObjects.Image,
 
     initialize:
 
-    function Coco (scene)
+    function Cocos (scene)
     {
         Phaser.GameObjects.Image.call(this, scene, 0, 0, 'coco');
     },
@@ -18,4 +18,4 @@ var Coco = new Phaser.Class({
     },
 });
 
-export {Coco};
+export {Cocos};
