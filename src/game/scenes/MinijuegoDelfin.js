@@ -11,7 +11,6 @@ var tortugas;
 var scoreText;
 var score;
 var lastFired = 0;
-var totalTurtles;
 var numbasuras = 1;
 var numBotellas = 1;
 var numBolsas = 1;
@@ -36,10 +35,14 @@ export default class MinijuegoDelfin extends Scene {
     let i = this.add.image(400, 300, 'fondo_delfin'); //         
     console.log(i);
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#000' });
-    score = 0;
-    totalTurtles = 0;                      
+    score = 0;            
+    this.physics.world.setBoundsCollision();        
 
     cursors = this.input.keyboard.createCursorKeys();
+
+    this.physics.world.on('worldbounds', function(body){
+      body.onWorldBounds = false;
+    },this);
 
     //AÑADIR JUGADOR
     player = this.physics.add.image(400, 500, 'delfin');
@@ -67,6 +70,7 @@ export default class MinijuegoDelfin extends Scene {
       runChildUpdate: true
     });
 
+
     //AÑADIR TORTUGAS
     var max = 10;
     var min = 5;
@@ -81,6 +85,8 @@ export default class MinijuegoDelfin extends Scene {
 
     tortugas.children.iterate(function (child) {
       child.setScale(0.03);
+      child.body.setCollideWorldBounds(true);
+      child.body.onWorldBounds = true;
     });
 
     this.physics.add.overlap(player, tortugas, collect, null, this);
@@ -88,7 +94,7 @@ export default class MinijuegoDelfin extends Scene {
     function collect (player, tortugas)
     {
         tortugas.disableBody(true, true);
-        totalTurtles += 10;
+        score += 1000000;
 
         setTimeout(function(){ 
           var pos_y = Phaser.Math.RND.between(0, 600);
@@ -157,14 +163,7 @@ export default class MinijuegoDelfin extends Scene {
     }
 
 
-    //BOTON PARA VOLVER AL MENU
-
-    var platformsf = this.physics.add.group({immovable: true});
-    var x = Phaser.Math.RND.between(0, 800);
-    platformsf.create(x, 150, 'platform').setScale(0.4);
-
-    this.physics.add.collider(player, platformsf);
-    this.physics.add.collider(bullets, platformsf);
+    //BOTON PARA VOLVER AL MENU 
 
     const volver = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
     volver.setInteractive();
@@ -173,12 +172,10 @@ export default class MinijuegoDelfin extends Scene {
   }
   
   update (time, delta) {
+   
+    score = score + 1000;
 
-
-
-    var segundos = Math.round();
-    score = segundos + totalTurtles;
-    scoreText.setText('Score: ' + score);
+    scoreText.setText('Score: ' + Math.round(score / 100000));
 
     incremento_dificultad += 1;
 
@@ -221,7 +218,12 @@ export default class MinijuegoDelfin extends Scene {
     //MOVIMIENTO TORTUGAS
     tortugas.setVelocityX(100);
 
-    var tortugas_grupo = tortugas.getChildren();
+    if(!tortugas.onWorldBounds)
+    {
+      console.log("Hola");
+    }
+
+    /*var tortugas_grupo = tortugas.getChildren();
     for(var i = 0; i < tortugas_grupo.length; i++)
     {
       var tortuga = tortugas_grupo[i];
@@ -234,14 +236,15 @@ export default class MinijuegoDelfin extends Scene {
           tortuga.enableBody(true, -40, pos_y, true, true);
         }, rand * 1000 / 2);
       }
-    }
+    }*/
 
     //MOVIMIENTO BASURA
-    basura.setVelocityY(velocidad_basura, 0);
+   // basura.setVelocityY(velocidad_basura, 0);
 
     var basuras2 = basura.getChildren();
     var i = 0;
     var basuras_long = basura.getLength();
+    var j = 0;
 
     while(i < basuras_long && !basura_caida)
     {
@@ -251,21 +254,22 @@ export default class MinijuegoDelfin extends Scene {
         {
           bas.disableBody(true, true);
           basura_caida = true;
+          j += 1;
 
-          if(basura_caida)
-          {
-            vidasDelfin -= 1;
-          }
-          setTimeout(function(){ 
+          /*setTimeout(function(){ 
             var pos_x = Phaser.Math.RND.between(0, 800);
             bas.enableBody(true, pos_x, -50, true, true);
             basura_caida = false;
-          }, 2000);
+          }, 2000);*/
         }
 
         i++;
     }
 
+    if(j > 0)
+    {
+      vidasDelfin -= j;
+    }
   
     //AUMENTO CANTIDAD Y VELOCIDAD BASURA
     if(incremento_dificultad % 3000 == 0)

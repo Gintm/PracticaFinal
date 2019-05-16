@@ -11,11 +11,20 @@ var Cocos = new Phaser.Class({
 
     fire: function (x, y)
     {
-        //Aqui tengo que pasarle la posicion que quiero poner el coco
         this.setPosition(x, y);
         this.setActive(true);
         this.setVisible(true);
     },
+    update: function (time, delta)
+    {
+        this.y -= 0.05 * delta;
+
+        if (this.y < -50)
+        {
+            this.setActive(false);
+            this.setVisible(false);
+        } 
+    }
 });
 
 export {Cocos};

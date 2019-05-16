@@ -8,7 +8,7 @@ var enemigo;
 var cocos;
 var platanos;
 var totalPlatanos = 0;
-var numEnemigos = 2;
+var numEnemigos = 3;
 var vidasd;
 var vidasi;
 var velocidadEnemigo = 100;
@@ -16,14 +16,12 @@ var incremento = 0;
 var totald;
 var totali;
 var enemigoAbajo = false;
-var corazones;
+var corad;
+var corai;
 var scoreText;
 var score = 0;
 var lastFired = 0;
-var cocod = 0;
-var cocoi = 0;
-var plati = false;
-var platd = false;
+var rand;
 
 export default class MinijuegoMonos extends Scene {
   constructor () {
@@ -32,56 +30,59 @@ export default class MinijuegoMonos extends Scene {
 
   create () {
     //Preparar escena
-    console.log("Starting MinijuegoMonos ...");
-    let i = this.add.image(400, 300, 'fondo_monos').setScale(0.555); //fondo
-    console.log(i);
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '24px', fill: '#000' });
-    cursors = this.input.keyboard.createCursorKeys();
+    console.log("Starting MinijuegoMonos ..."); //Inicializar el juego "Cargando"
+    let i = this.add.image(400, 300, 'fondo_monos').setScale(0.555); //Fondo
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '24px', fill: '#000' }); //Formato del Score
+    cursors = this.input.keyboard.createCursorKeys(); //Inicializacion del input
+    var rand = Math.floor(Math.random() * (max - min + 1) + min); //Variable con valor aleatorio
 
-    //Añadir jugador
+    //Añadir onos
+    //Mono derecha
     monod = this.physics.add.image(700, 500, 'mono1');
     monod.setScale(0.25);
+    //Mono izquierda
     monoi = this.physics.add.image(100, 500, 'mono2');
     monoi.setScale(0.25);
     
     //Preparar las vidas de los monos
     vidasd = 2;
     vidasi = 2;
+    totald = 2;
+    totali = 2;
     var corinc = 32;
-    corazones = this.physics.add.group();
-
+    //Grupos que dibujan los corazones
+    corad= this.physics.add.group();
+    corai= this.physics.add.group();
+    //Creacion de los corazones
     for(var a=0;a<vidasd;a++)
     {
-      corazones.create(corinc, 575, 'corazon').setScale(0.05);
+      corad.create(corinc, 575, 'corazon').setScale(0.05);
       corinc+=32;
     }
     for(var z=0;z<vidasi;z++)
     {
-      corazones.create(525+corinc, 575, 'corazon').setScale(0.05);
+      corai.create(525+corinc, 575, 'corazon').setScale(0.05);
       corinc+=32;
     }
-    totald = 2;
-    totali = 2;
     
     //Añadir cocos
     cocos = this.add.group({
       classType: Cocos,
-      maxSize: 2,
+      maxSize: 10,
       runChildUpdate: true
     });
    
     //Añadir platanos
     var max = 10;
     var min = 5;
-    var rand = Math.floor(Math.random() * (max - min + 1) + min);
-    var pos_x = Phaser.Math.RND.between(0, 1);
-    if (pos_x == 0){
+    //Variable aleatoria para decidir si el platano saldra por el carril derecho o el izquierdo
+    var rn = Phaser.Math.RND.between(0, 1);
+    if (rn == 0){
       var pos = 225
-      plati = true;
     } else {
       var pos = 525
-      platd = true;
     }
+    //Creacion del grupo
     platanos = this.physics.add.group({
       key: 'platanos',
       repeat: 0,
@@ -91,21 +92,23 @@ export default class MinijuegoMonos extends Scene {
       child.setScale(0.05)
     });
 
-    
     //Añadir Leñadores
+    //Creacion del grupo
     enemigo = this.physics.add.group();
     for(var b=0;b<numEnemigos;b++)
     {
-      var pos_x = Phaser.Math.RND.between(0, 1);
-      if (pos_x == 0 && plati!=true){
+      //Variable aleatoria para decidir si el enemigo saldra por el carril derecho o el izquierdo
+      var rn = Phaser.Math.RND.between(0, 1);
+      if (rn == 0){
         var pos = 225
       } else {
         var pos = 525
       }
-      enemigo.create(pos, 0, 'lenyador').setScale(0.05);
+      //Varibable para que al inicializar el juego salgan los leñadores en una Y diferente (para que tarden ams en aparecer en el mapa)
+      var n = 200*b
+      //crear el enemigo
+      enemigo.create(pos, -n, 'lenyador').setScale(0.05);
     }
-
-    //Enemigo ha pasado
     
     //Disparo daño
     this.physics.add.collider(cocos,enemigo,hit,null,this);
@@ -113,8 +116,9 @@ export default class MinijuegoMonos extends Scene {
     {
       enemigo.disableBody(true, true);
         setTimeout(function(){ 
-          var pos_x = Phaser.Math.RND.between(0, 1);
-          if (pos_x == 0 && plati!=true){
+          //Variable aleatoria para decidir si el enemigo saldra por el carril derecho o el izquierdo
+          var rn = Phaser.Math.RND.between(0, 1);
+          if (rn == 0){
             var pos = 225
           } else {
             var pos = 525
@@ -122,139 +126,154 @@ export default class MinijuegoMonos extends Scene {
           enemigo.enableBody(true, pos, 0, true, true);
         }, 2000);
     }
-
-    this.physics.add.overlap(cocos, platanos, collect, null, this);
+    this.physics.add.collider(cocos, platanos, collect, null, this);
     function collect (cocos, platanos)
     {
         platanos.disableBody(true, true);
+        //Suma a la puntuacion
         totalPlatanos += 10;
-        plati = false;
-        platd = false;
         setTimeout(function(){ 
           platanos.enableBody(true, 0, pos_y, true, true);
+          //Variable aleatoria para decidir si el enemigo saldra por el carril derecho o el izquierdo
           var pos_x = Phaser.Math.RND.between(0, 1);
           if (pos_x == 0){
             var pos = 225
-            plati = true;
           } else {
             var pos = 525
-            platd = true;
           }
           platanos.enableBody(true,pos,0,true,true);
         }, rand * 1000);
     }
 
   }
+
   update (time, delta) {
     //Disparo monos
-    //cuando coco desaparezca popner nuevamente cocoi a cero
-    var that = this;
+    //variable que cuenta los segundos
     var segundos = Math.round(time / 1000);
+    //variable de puntuacion
     score = segundos + totalPlatanos;
+    //actualizar el score por pantalla
     scoreText.setText('Score: ' + score);
+    //incremento de dificultad del juego
     incremento += 1;
-
-    if(cursors.left.isDown && cocoi == 0)
-    {
+    //controlador de inputs para disparar los cocos
+    if(cursors.left.isDown && time > lastFired)
+    { 
       var coco = cocos.get();
-      cocoi = 1;
       if(coco)
       {
         coco.fire(225,500);
-        lastFired = time + 50;
+        lastFired = time + 1000;
       }
     }
-    else if(cursors.right.isDown && cocod == 0)
+    else if(cursors.right.isDown && time > lastFired)
     {
       var coco = cocos.get();
-      cocod = 1;
       if(coco)
       {
         coco.fire(525,500);
-        lastFired = time + 50;
+        lastFired = time + 1000;
       }
     }
+
     //Movimiento enemigos
+    //preestablecer la velocidad del enemigo
     enemigo.setVelocityY(velocidadEnemigo);
+    //crear un enemigo
     var ene=enemigo.getChildren();
     var cnt=0;
+    //guardar el largo del grupo enemigo
     var eneLong = enemigo.getLength();
     while(cnt < eneLong && !enemigoAbajo)
     {
+      //comrpobar acciones del enemigo
       var lenyador = ene[cnt];
-
       if(lenyador.y > 600)
         {
+          //si ha llegado a la parte inferior del mapa
           lenyador.disableBody(true, true);
           enemigoAbajo = true;
-
           if(enemigoAbajo)
           {
             if(lenyador.x==225){
+              //si ha sido po la derecha se restara una vida al mono de la derecha
               vidasd -= 1;
-            }else{
+            }
+            if (lenyador.x==525){
+              //si ha sido por la izquierda se restara una vida al mono de la izquierda
               vidasi -= 1;
             }
           }
-          
-
           setTimeout(function(){ 
-            var pos_x = Phaser.Math.RND.between(0, 1);
-            if (pos_x == 0 && plati!=true){
+            //Variable aleatoria para decidir si el enemigo saldra por el carril derecho o el izquierdo
+            var rn = Phaser.Math.RND.between(0, 1);
+            if (rn == 0){
               var pos = 225
             } else {
               var pos = 525
             }
             lenyador.enableBody(true, pos, 0, true, true);
+            enemigoAbajo = false;
           }, 2000);
         }
         cnt++;
     }
+
     //movimiento platanos
+    //preestablecer la velocidad de los platanos
     platanos.setVelocityY(velocidadEnemigo);
     var gPlat = platanos.getChildren();
     for(var n=0;n<gPlat.length;n++){
       var platano = gPlat[n];
       if(platano.y > 600)
       {
+        //comprobar si los platanos han salido de pantalla
         platano.disableBody(true, true);
         setTimeout(function(){ 
-          var pos_x = Phaser.Math.RND.between(0, 1);
-          if (pos_x == 0){
+          //Variable aleatoria para decidir si el enemigo saldra por el carril derecho o el izquierdo
+          var rn = Phaser.Math.RND.between(0, 1);
+          if (rn == 0){
             var pos = 225
-            plati = true;
-          } else {
+          } else{
             var pos = 525
-            platd = true;
           }
-          platanos.enableBody(true,pos,0,true,true);
-        }, rand * 1000 / 2);
+          platano.enableBody(true,pos,0,true,true);
+        }, rand * 10000);
       }
     }
 
     //aumento de dificultad
     if(incremento % 3000 == 0)
     {
+      //incremento de velocidad de los enemigos, los polatanos
       velocidadEnemigo =  velocidadEnemigo * 1.05;
+      //creacion de un enemigo adicional en cada carril
+      enemigo.create(225,0,'lenyador').setScale(0.05);
+      enemigo.create(525,0,'lenyador').setScale(0.05);
     }
 
     //disminucions de vidas
-    var gcor = corazones.getChildren();
-    if(vidasd<totald){
-      var aux = gcor[totald - 1];
+    var gcori = corai.getChildren();
+    var gcord = corad.getChildren();
+    //disminucion de vidas de la derecha
+    if(vidasd>totald){
+      var aux = gcord[totald - 1];
       aux.disableBody(true, true);
       totald -= 1;
     }
-    if(vidasi<totali){
-      var aux = gcor[totali - 1];
+    //disminucion de vidas de la izquierda
+    if(vidasi>totali){
+      var aux = gcori[totali - 1];
       aux.disableBody(true, true);
       totali -= 1;
     }
 
     //morir
-    if(vidasd == 0 || vidasi == 0){
+    /*if(vidasd == 0 || vidasi == 0){
+      //si uno de los dos monos tiene 0 vidas, el juego acaba
       this.scene.switch('Menu');
-    }
+    }*/
 
   }
 }
