@@ -70,11 +70,18 @@ export default class Menu extends Scene {
 
     if(clickedDelfin == true && clickedMonos == true && clickedOso == true)
     {
+<<<<<<< HEAD
       btnFab = this.add.sprite(400, 525, 'fabric', 0).setScale(0.75);
       btnFab.setInteractive();
       btnFab.on('pointerover', () => btnFab.setFrame(1));
       btnFab.on('pointerout', () => btnFab.setFrame(0));
       btnFab.on('pointerup', () =>  this.scene.switch('MinijuegoFinal'));
+=======
+      this.scene.start('MinijuegoFinal');
+      clickedDelfin = false;
+      clickedMonos = false;
+      clickedOso = false;
+>>>>>>> master
     }
   }
 
