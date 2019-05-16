@@ -66,7 +66,6 @@ export default class MinijuegoFinal extends Scene {
 
     enemigo = this.physics.add.image(200, 250, 'enemigo');
     enemigo.setScale(0.07);
-    enemigo.setCollideWorldBounds(true);
     enemigo.setInteractive();
     enemigo.on('pointerdown', () => clickedEnemy = true);
 
