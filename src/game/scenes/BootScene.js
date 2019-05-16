@@ -21,7 +21,6 @@ import hielito from '@/game/assets/Hielo.png';
 import botella from '@/game/assets/Botella.png';
 import bolsa from '@/game/assets/Bolsa.png';
 import lenyador from '@/game/assets/leñador.png';
-
 import enemigo from '@/game/assets/enemigo.png';
 
 export default class BootScene extends Scene {
@@ -49,13 +48,10 @@ export default class BootScene extends Scene {
         this.load.image('osito', osito);
         this.load.image('fondo_fabrica', fondo_fabrica);
         this.load.image('hielito', hielito);
-<<<<<<< Updated upstream
         this.load.image('botella', botella);
         this.load.image('bolsa', bolsa);
         this.load.image('lenyador', lenyador);
-=======
         this.load.image('enemigo', enemigo);
->>>>>>> Stashed changes
         //this.load.audio('thud', ['assets/thud.mp3', 'assets/thud.ogg'])
     }
 

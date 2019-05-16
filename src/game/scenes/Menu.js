@@ -1,8 +1,8 @@
 import { Scene } from 'phaser';
 
-    var clickedOso = true;
-    var clickedDelfin = true;
-    var clickedMonos = true;
+    var clickedOso = false;
+    var clickedDelfin = false;
+    var clickedMonos = false;
 
 
 export default class Menu extends Scene {
@@ -57,6 +57,9 @@ export default class Menu extends Scene {
     if(clickedDelfin == true && clickedMonos == true && clickedOso == true)
     {
       this.scene.start('MinijuegoFinal');
+      clickedDelfin = false;
+      clickedMonos = false;
+      clickedOso = false;
     }
 
   }

@@ -13,7 +13,7 @@ var Coco = new Phaser.Class({
     fire: function (x, y)
     {
         this.setPosition(x, y - 75);
-        this.setScale(0.25);
+        this.setScale(0.8);
         this.setActive(true);
         this.setVisible(true);
     },
