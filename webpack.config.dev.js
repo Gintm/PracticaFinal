@@ -66,6 +66,17 @@ module.exports = {
                     path.join(__dirname, "src/templates")
                 ],
                 use: 'raw-loader',
+            },
+            {
+                test: /\.(ogg|mp3)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'audio/[name].[ext]',
+                        },
+                    },
+                ],
             }
         ]
     }

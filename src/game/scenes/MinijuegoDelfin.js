@@ -37,8 +37,10 @@ export default class MinijuegoDelfin extends Scene {
     console.log(i);
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#000' });
     score = 0;                  
-
+    var that = this;
     cursors = this.input.keyboard.createCursorKeys();
+
+    this.sound.add('pop');
 
     //AÑADIR JUGADOR
     player = this.physics.add.image(400, 500, 'delfin');
@@ -131,17 +133,19 @@ export default class MinijuegoDelfin extends Scene {
     }
 
     //BALA GOLPEA BASURA Y A TORTUGAS
-    /*this.sound_pop = this.time.addEvent({
+    this.sound_pop = this.time.addEvent({
       duration: 2000,
       repeat: -1,
+      delay: -2000,
       callBackScope: this,
       callback: function(){
         if(pop == true)
         {
-          sound.play('pop');
+          that.sound.play('pop');
+          pop = false;
         }
       }
-    })*/
+    })
 
     this.physics.add.collider(bullets, basura, hit, null, this);
 

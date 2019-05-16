@@ -15,7 +15,7 @@ var text;
 var score;
 var randX;
 var randY;
-
+var bg_music;
 
 
 export default class MinijuegoOso extends Scene {
@@ -27,6 +27,10 @@ export default class MinijuegoOso extends Scene {
     console.log("Starting MinijuegoOso ...");
     let i = this.add.image(400, 300, 'fondo_oso').setScale(0.6); //fondo
     console.log(i);
+
+    bg_music = this.sound.add('osoMusic');
+    bg_music.play();
+
     // Inicializacion variables
     cd = 0;
     score = 0;
@@ -125,6 +129,7 @@ export default class MinijuegoOso extends Scene {
 
     if (player.body.onFloor())
     {
+      bg_music.stop();
       this.scene.switch('Menu');
     }
 

@@ -7,6 +7,7 @@ var btnOso;
 var btnDlf;
 var btnMono;
 var btnFab;
+var bgMusic;
 
 export default class Menu extends Scene {
   constructor () {
@@ -17,6 +18,11 @@ export default class Menu extends Scene {
     console.log("Starting Menu ...");
     let i = this.add.image(400, 300, 'menu'); //fondo
     console.log(i);
+    var that = this;
+    bgMusic = this.sound.add('music');
+    bgMusic.play();
+    
+
 
     //Añadir imagenes botones
     btnOso = this.add.sprite(400, 300, 'bear', 0).setScale(0.75);
@@ -28,11 +34,12 @@ export default class Menu extends Scene {
 
     //Boton oso
     if (clickedOso == false){
-      
-
       btnOso.on('pointerover', () => btnOso.setFrame(1));
       btnOso.on('pointerout', () => btnOso.setFrame(0));
-      btnOso.on('pointerup', () => this.scene.start('MinijuegoOso'));
+      btnOso.on('pointerup', function (){
+        bgMusic.stop();
+        that.scene.start('MinijuegoOso');
+      });
       btnOso.on('pointerdown', () => clickedOso = true);
     }
     else
@@ -70,22 +77,16 @@ export default class Menu extends Scene {
 
     if(clickedDelfin == true && clickedMonos == true && clickedOso == true)
     {
-<<<<<<< HEAD
       btnFab = this.add.sprite(400, 525, 'fabric', 0).setScale(0.75);
       btnFab.setInteractive();
       btnFab.on('pointerover', () => btnFab.setFrame(1));
       btnFab.on('pointerout', () => btnFab.setFrame(0));
       btnFab.on('pointerup', () =>  this.scene.switch('MinijuegoFinal'));
-=======
-      this.scene.start('MinijuegoFinal');
-      clickedDelfin = false;
-      clickedMonos = false;
-      clickedOso = false;
->>>>>>> master
     }
   }
 
   update () {
+    
   }
 
 }

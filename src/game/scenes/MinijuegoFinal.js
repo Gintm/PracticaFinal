@@ -78,14 +78,6 @@ export default class MinijuegoFinal extends Scene {
       enemigo.create(x, 250, 'enemigo').setScale(0.07);
     }
 
-<<<<<<< HEAD
-  
-    enemigo = this.physics.add.image(oso.x, 250, 'enemigo');
-    enemigo.setScale(0.05);
-    enemigo.setCollideWorldBounds(true);
-    enemigo.setInteractive();
-    enemigo.on('pointerdown', () => clickedEnemy = true);
-=======
     this.physics.add.collider(enemigo, bullets_oso, get_hit_oso, null, this);
     this.physics.add.collider(enemigo, bullets_delfin, get_hit_delfin, null, this);
     this.physics.add.collider(enemigo, bullets_mono, get_hit_mono, null, this);
@@ -117,7 +109,6 @@ export default class MinijuegoFinal extends Scene {
           enemigo.enableBody(true, randX, 250, true, true);
         }, 1000);
     }
->>>>>>> master
 
   }
 
