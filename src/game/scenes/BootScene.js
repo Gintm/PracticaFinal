@@ -21,6 +21,13 @@ import hielito from '@/game/assets/Hielo.png';
 import botella from '@/game/assets/Botella.png';
 import bolsa from '@/game/assets/Bolsa.png';
 import lenyador from '@/game/assets/leñador.png';
+import enemigo from '@/game/assets/enemigo.png';
+import menu from '@/game/assets/menu.png';
+import dolphin from '@/game/assets/dolphin.png';
+import bear from '@/game/assets/bear.png';
+import monkeys from '@/game/assets/monkeys.png';
+import fabric from '@/game/assets/fabric.png';
+//import pop from '@/game/assets/pop.wav';
 
 
 export default class BootScene extends Scene {
@@ -51,10 +58,16 @@ export default class BootScene extends Scene {
         this.load.image('botella', botella);
         this.load.image('bolsa', bolsa);
         this.load.image('lenyador', lenyador);
-        //this.load.audio('thud', ['assets/thud.mp3', 'assets/thud.ogg'])
+        this.load.image('enemigo', enemigo);
+        this.load.image('menu', menu);
+        this.load.spritesheet('dolphin', dolphin, { frameWidth: 433, frameHeight: 86 } );
+        this.load.spritesheet('fabric', fabric, { frameWidth: 433, frameHeight: 86 } );
+        this.load.spritesheet('monkeys', monkeys, { frameWidth: 433, frameHeight: 86 } );
+        this.load.spritesheet('bear', bear, { frameWidth: 433, frameHeight: 86 } );
+        //this.load.audio('pop', pop)
     }
 
     create() { 
-        this.scene.start('Menu')
+        this.scene.start('Start');
     }
 }

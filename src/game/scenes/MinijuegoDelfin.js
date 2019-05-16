@@ -16,12 +16,13 @@ var numBotellas = 1;
 var numBolsas = 1;
 var vidasDelfin;
 var basura;
-var botellas;
 var corazones;
 var velocidad_basura = 100;
 var incremento_dificultad = 0;
 var total_corazones;
 var basura_caida = false;
+var pop = false;
+var sound_pop;
 
 
 export default class MinijuegoDelfin extends Scene {
@@ -35,14 +36,9 @@ export default class MinijuegoDelfin extends Scene {
     let i = this.add.image(400, 300, 'fondo_delfin'); //         
     console.log(i);
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#000' });
-    score = 0;            
-    this.physics.world.setBoundsCollision();        
+    score = 0;                  
 
     cursors = this.input.keyboard.createCursorKeys();
-
-    this.physics.world.on('worldbounds', function(body){
-      body.onWorldBounds = false;
-    },this);
 
     //AÑADIR JUGADOR
     player = this.physics.add.image(400, 500, 'delfin');
@@ -70,7 +66,6 @@ export default class MinijuegoDelfin extends Scene {
       runChildUpdate: true
     });
 
-
     //AÑADIR TORTUGAS
     var max = 10;
     var min = 5;
@@ -85,8 +80,6 @@ export default class MinijuegoDelfin extends Scene {
 
     tortugas.children.iterate(function (child) {
       child.setScale(0.03);
-      child.body.setCollideWorldBounds(true);
-      child.body.onWorldBounds = true;
     });
 
     this.physics.add.overlap(player, tortugas, collect, null, this);
@@ -138,11 +131,24 @@ export default class MinijuegoDelfin extends Scene {
     }
 
     //BALA GOLPEA BASURA Y A TORTUGAS
+    /*this.sound_pop = this.time.addEvent({
+      duration: 2000,
+      repeat: -1,
+      callBackScope: this,
+      callback: function(){
+        if(pop == true)
+        {
+          sound.play('pop');
+        }
+      }
+    })*/
+
     this.physics.add.collider(bullets, basura, hit, null, this);
 
     function hit (bullets, basura)
     {
       basura.disableBody(true, true);
+      pop = true;
 
         setTimeout(function(){ 
           var pos_x = Phaser.Math.RND.between(0, 800);
@@ -163,7 +169,7 @@ export default class MinijuegoDelfin extends Scene {
     }
 
 
-    //BOTON PARA VOLVER AL MENU 
+    //BOTON PARA VOLVER AL MENU
 
     const volver = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
     volver.setInteractive();
@@ -172,9 +178,8 @@ export default class MinijuegoDelfin extends Scene {
   }
   
   update (time, delta) {
-   
-    score = score + 1000;
 
+    score = score + 1000;
     scoreText.setText('Score: ' + Math.round(score / 100000));
 
     incremento_dificultad += 1;
@@ -218,12 +223,7 @@ export default class MinijuegoDelfin extends Scene {
     //MOVIMIENTO TORTUGAS
     tortugas.setVelocityX(100);
 
-    if(!tortugas.onWorldBounds)
-    {
-      console.log("Hola");
-    }
-
-    /*var tortugas_grupo = tortugas.getChildren();
+    var tortugas_grupo = tortugas.getChildren();
     for(var i = 0; i < tortugas_grupo.length; i++)
     {
       var tortuga = tortugas_grupo[i];
@@ -236,15 +236,14 @@ export default class MinijuegoDelfin extends Scene {
           tortuga.enableBody(true, -40, pos_y, true, true);
         }, rand * 1000 / 2);
       }
-    }*/
+    }
 
     //MOVIMIENTO BASURA
-   // basura.setVelocityY(velocidad_basura, 0);
+    basura.setVelocityY(velocidad_basura, 0);
 
     var basuras2 = basura.getChildren();
     var i = 0;
     var basuras_long = basura.getLength();
-    var j = 0;
 
     while(i < basuras_long && !basura_caida)
     {
@@ -254,22 +253,21 @@ export default class MinijuegoDelfin extends Scene {
         {
           bas.disableBody(true, true);
           basura_caida = true;
-          j += 1;
 
-          /*setTimeout(function(){ 
+          if(basura_caida)
+          {
+            vidasDelfin -= 1;
+          }
+          setTimeout(function(){ 
             var pos_x = Phaser.Math.RND.between(0, 800);
             bas.enableBody(true, pos_x, -50, true, true);
             basura_caida = false;
-          }, 2000);*/
+          }, 2000);
         }
 
         i++;
     }
 
-    if(j > 0)
-    {
-      vidasDelfin -= j;
-    }
   
     //AUMENTO CANTIDAD Y VELOCIDAD BASURA
     if(incremento_dificultad % 3000 == 0)

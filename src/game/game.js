@@ -5,6 +5,7 @@ import MinijuegoDelfin from './scenes/MinijuegoDelfin'
 import MinijuegoOso from './scenes/MinijuegoOso'
 import MinijuegoMonos from './scenes/MinijuegoMonos'
 import MinijuegoFinal from './scenes/MinijuegoFinal'
+import Start from './scenes/Start'
 
 function launch() {
     new Phaser.Game({
@@ -20,7 +21,7 @@ function launch() {
                 setBounds: true
             }
         },
-        scene: [BootScene, Menu, MinijuegoOso, MinijuegoDelfin, MinijuegoMonos, MinijuegoFinal]
+        scene: [BootScene, Menu, MinijuegoOso, MinijuegoDelfin, MinijuegoMonos, MinijuegoFinal, Start]
     })
 }
 

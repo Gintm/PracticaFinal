@@ -144,6 +144,9 @@ export default class MinijuegoMonos extends Scene {
           platanos.enableBody(true,pos,0,true,true);
         }, rand * 1000);
     }
+    const volver = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
+    volver.setInteractive();
+    volver.on('pointerup', () => this.scene.switch('Menu'));
 
   }
 
