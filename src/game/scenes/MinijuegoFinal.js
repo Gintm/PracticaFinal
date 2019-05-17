@@ -55,7 +55,7 @@ export default class MinijuegoFinal extends Scene {
     estat = "oso";
     cd = 0;
     inc = 0;
-    vida_fabrica = 5000;
+    vida_fabrica = 3000;
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -267,7 +267,7 @@ export default class MinijuegoFinal extends Scene {
       //estat = "oso";
     }
 
-    
+ 
 
     if(inc % 1000 == 0)
     {
@@ -290,24 +290,9 @@ export default class MinijuegoFinal extends Scene {
       }
     }
 
-
     enemigo.setVelocityX(speed, 0);
 
-
     this.physics.world.wrap(enemigo, 0);
-
-    /*if(bullets_delfin.Y <= 100)
-    {
-      bullets_delfin.disableBody(true, true);
-    }
-    if(bullets_oso.Y <= 100)
-    {
-      bullets_oso.disableBody(true, true);
-    }
-    if(bullets_mono.Y <= 100)
-    {
-      bullets_mono.disableBody(true, true);
-    }*/
 
     var conjunto_corazones_oso = corazones_oso.getChildren();
     
