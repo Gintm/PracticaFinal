@@ -185,7 +185,7 @@ export default class MinijuegoMonos extends Scene {
       if(coco)
       {
         coco.fire(225,500);
-        lastFired = time + 1200;
+        lastFired = time + 1000;
       }
     }
     else if(cursors.right.isDown && time > lastFired)
@@ -194,7 +194,7 @@ export default class MinijuegoMonos extends Scene {
       if(coco)
       {
         coco.fire(525,500);
-        lastFired = time + 1500;
+        lastFired = time + 1000;
       }
     }
 
