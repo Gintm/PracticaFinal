@@ -1,8 +1,8 @@
 import { Scene } from 'phaser';
 
-var clickedOso = false;
-var clickedDelfin = false;
-var clickedMonos = false;
+var clickedOso = true;
+var clickedDelfin = true;
+var clickedMonos = true;
 var btnOso;
 var btnDlf;
 var btnMono;
@@ -53,7 +53,10 @@ export default class Menu extends Scene {
 
       btnDlf.on('pointerover', () => btnDlf.setFrame(1));
       btnDlf.on('pointerout', () => btnDlf.setFrame(0));
-      btnDlf.on('pointerup', () => this.scene.start('MinijuegoDelfin'));
+      btnDlf.on('pointerup', function (){
+        bgMusic.stop();
+        that.scene.start('MinijuegoDelfin');
+      });
       btnDlf.on('pointerdown', () => clickedDelfin = true);
     }
     else{
@@ -66,7 +69,10 @@ export default class Menu extends Scene {
 
       btnMono.on('pointerover', () => btnMono.setFrame(1));
       btnMono.on('pointerout', () => btnMono.setFrame(0));
-      btnMono.on('pointerup', () => this.scene.start('MinijuegoMonos'));
+      btnMono.on('pointerup', function (){
+        bgMusic.stop();
+        that.scene.start('MinijuegoMonos');
+      });
       btnMono.on('pointerdown', () => clickedMonos = true);
     }
     else
@@ -81,7 +87,13 @@ export default class Menu extends Scene {
       btnFab.setInteractive();
       btnFab.on('pointerover', () => btnFab.setFrame(1));
       btnFab.on('pointerout', () => btnFab.setFrame(0));
-      btnFab.on('pointerup', () =>  this.scene.switch('MinijuegoFinal'));
+      btnFab.on('pointerup', function (){
+        clickedDelfin = false;
+        clickedMonos = false;
+        clickedOso = false;
+        bgMusic.stop();
+        that.scene.start('MinijuegoFinal');
+      });
     }
   }
 

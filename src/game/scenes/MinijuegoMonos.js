@@ -22,6 +22,7 @@ var scoreText;
 var score = 0;
 var lastFired = 0;
 var rand;
+var bg_music;
 
 export default class MinijuegoMonos extends Scene {
   constructor () {
@@ -35,6 +36,9 @@ export default class MinijuegoMonos extends Scene {
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '24px', fill: '#000' }); //Formato del Score
     cursors = this.input.keyboard.createCursorKeys(); //Inicializacion del input
     var rand = Math.floor(Math.random() * (max - min + 1) + min); //Variable con valor aleatorio
+
+    bg_music = this.sound.add('monkeysMusic');
+    bg_music.play();
 
     //Añadir onos
     //Mono derecha
@@ -148,12 +152,10 @@ export default class MinijuegoMonos extends Scene {
 
   update (time, delta) {
     //Disparo monos
-    //variable que cuenta los segundos
-    var segundos = Math.round(time / 1000);
     //variable de puntuacion
-    score = segundos + totalPlatanos;
+    score = score + 1000;
     //actualizar el score por pantalla
-    scoreText.setText('Score: ' + score);
+    scoreText.setText('Score: ' + Math.round(score / 100000));
     //incremento de dificultad del juego
     incremento += 1;
     //controlador de inputs para disparar los cocos
@@ -268,9 +270,10 @@ export default class MinijuegoMonos extends Scene {
       totali -= 1;
     }
 
-    //morir
+    //perder minijuego
     if(vidasd == 0 || vidasi == 0){
       //si uno de los dos monos tiene 0 vidas, el juego acaba
+      bg_music.stop();
       this.scene.switch('Menu');
     }
 

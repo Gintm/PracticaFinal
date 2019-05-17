@@ -2,6 +2,8 @@ import { Scene } from 'phaser';
 import { Bullet } from '@/game/scenes/BalaDelfin.js';
 import { Hielo } from '@/game/scenes/BalaOso.js';
 import { Coco } from '@/game/scenes/BalaMono.js';
+import { Poti } from '@/game/scenes/BalaEnemigos.js';
+
 var oso;
 var delfin;
 var mono;
@@ -9,6 +11,7 @@ var cursors;
 var bullets_delfin;
 var bullets_oso;
 var bullets_mono;
+var bullets_enemigos;
 var estat;
 var cd;
 var enemigo;
@@ -16,7 +19,16 @@ var inc;
 var speed = 300;
 var randX;
 var vida_fabrica;
-
+var bg_music;
+var vidasMono = 3;
+var vidasDelfin = 3;
+var vidasOso = 3;
+var corazones_oso;
+var corazones_monos;
+var corazones_delfin;
+var total_corazones_oso;
+var total_corazones_monos;
+var total_corazones_delfin;
 
 
 
@@ -29,6 +41,9 @@ export default class MinijuegoFinal extends Scene {
     console.log("Starting MinijuegoFinal ...");
     let i = this.add.image(400, 300, 'fondo_fabrica').setScale(0.4); //fondo
     console.log(i);
+
+    bg_music = this.sound.add('finalMusic');
+    bg_music.play();
 
     estat = "oso";
     cd = 0;
@@ -68,7 +83,45 @@ export default class MinijuegoFinal extends Scene {
       maxSize: 10,
       runChildUpdate: true,
       immovable: true
-    });    
+    });
+
+    bullets_enemigos = this.physics.add.group({
+      classType: Poti,
+      maxSize: 10,
+      runChildUpdate: true,
+      immovable: true
+    });
+
+    var corazones_padding_oso = 0;
+    var corazones_padding_delfin = 0;
+    var corazones_padding_monos = 0;
+    
+    corazones_oso = this.physics.add.group();
+    corazones_delfin = this.physics.add.group();
+    corazones_monos = this.physics.add.group();
+
+    for(var j = 0; j < vidasOso; j++)
+    {
+        corazones_oso.create(oso.x + corazones_padding_oso, 575, 'corazon').setScale(0.05);
+        corazones_padding_oso += 32;
+    }
+    
+    for(var j = 0; j < vidasDelfin; j++)
+    {
+        corazones_delfin.create(delfin.x + corazones_padding_delfin, 575, 'corazon').setScale(0.05);
+        corazones_padding_delfin += 32;
+    }    
+    
+    for(var j = 0; j < vidasMono; j++)
+    {
+        corazones_monos.create(mono.x + corazones_padding_monos, 575, 'corazon').setScale(0.05);
+        corazones_padding_monos += 32;
+    }
+
+    total_corazones_oso = corazones_oso.getLength();
+    total_corazones_monos = corazones_monos.getLength();
+    total_corazones_delfin = corazones_delfin.getLength();
+
 
     enemigo = this.physics.add.group({immovable: true});
     
@@ -78,36 +131,60 @@ export default class MinijuegoFinal extends Scene {
       enemigo.create(x, 250, 'enemigo').setScale(0.07);
     }
 
-    this.physics.add.collider(enemigo, bullets_oso, get_hit_oso, null, this);
-    this.physics.add.collider(enemigo, bullets_delfin, get_hit_delfin, null, this);
-    this.physics.add.collider(enemigo, bullets_mono, get_hit_mono, null, this);
+    this.physics.add.collider(enemigo, bullets_oso, hit_oso, null, this);
+    this.physics.add.collider(enemigo, bullets_delfin, hit_delfin, null, this);
+    this.physics.add.collider(enemigo, bullets_mono, hit_mono, null, this);
+    this.physics.add.collider(oso, bullets_enemigos, get_hit_oso, null, this);
+    this.physics.add.collider(mono, bullets_enemigos, get_hit_mono, null, this);
+    this.physics.add.collider(delfin, bullets_enemigos, get_hit_delfin, null, this);
 
-    function get_hit_oso (enemigo, bullets_oso)
+    function hit_oso (enemigo, bullets_oso)
     {
         enemigo.disableBody(true, true);
         vida_fabrica -= 20;
+        bullets_oso.destroy();
         
         setTimeout(function(){ 
           enemigo.enableBody(true, randX, 250, true, true);
         }, 1000);
     }
-    function get_hit_delfin (enemigo, bullets_delfin)
+    function hit_delfin (enemigo, bullets_delfin)
     {
         enemigo.disableBody(true, true);
         vida_fabrica -= 20;
+        bullets_delfin.destroy();
         
         setTimeout(function(){ 
           enemigo.enableBody(true, randX, 250, true, true);
         }, 1000);
     }
-    function get_hit_mono (enemigo, bullets_mono)
+    function hit_mono (enemigo, bullets_mono)
     {
         enemigo.disableBody(true, true);
         vida_fabrica -= 20;
+        bullets_mono.destroy();
         
         setTimeout(function(){ 
           enemigo.enableBody(true, randX, 250, true, true);
         }, 1000);
+    }
+
+    function get_hit_oso (oso, bullets_enemigos)
+    {
+      bullets_enemigos.destroy();
+      vidasOso -= 1;
+    }
+
+    function get_hit_mono (oso, bullets_enemigos)
+    {
+      bullets_enemigos.destroy();
+      vidasMono -= 1;
+    }
+
+    function get_hit_delfin (oso, bullets_enemigos)
+    {
+      bullets_enemigos.destroy();
+      vidasDelfin -= 1;
     }
 
   }
@@ -156,8 +233,16 @@ export default class MinijuegoFinal extends Scene {
     {
       randX = Phaser.Math.RND.between(50, 750);
       enemigo.create(randX, 250, 'enemigo').setScale(0.07);
+      var bullet = bullets_enemigos.get();
+      if(bullet)
+      {
+        var enemigo_long = enemigo.getLength();
+        var rand = Phaser.Math.RND.between(0, enemigo_long - 1)
+        bullet.fire(enemigo.getChildren()[rand].x, enemigo.getChildren()[rand].y);
+      }
     }
-    if(inc%300==0)
+    
+    if(inc % 300 == 0)
     {
       if(speed <= 600)
       {
@@ -165,7 +250,9 @@ export default class MinijuegoFinal extends Scene {
       }
     }
 
+
     enemigo.setVelocityX(speed, 0);
+
 
     this.physics.world.wrap(enemigo, 0);
 
@@ -182,8 +269,49 @@ export default class MinijuegoFinal extends Scene {
       bullets_mono.disableBody(true, true);
     }*/
 
-    if(vida_fabrica <= 0)
+    var conjunto_corazones_oso = corazones_oso.getChildren();
+    
+    if(vidasOso < total_corazones_oso)
     {
+        var corazon_aux = conjunto_corazones_oso[total_corazones_oso - 1];
+        corazon_aux.disableBody(true, true);
+        total_corazones_oso -= 1;
+    }
+    
+    var conjunto_corazones_monos = corazones_monos.getChildren();
+    
+    if(vidasMono < total_corazones_monos)
+    {
+        var corazon_aux = conjunto_corazones_monos[total_corazones_monos - 1];
+        corazon_aux.disableBody(true, true);
+        total_corazones_monos -= 1;
+    }
+
+    var conjunto_corazones_delfin = corazones_delfin.getChildren();
+    
+    if(vidasDelfin < total_corazones_delfin)
+    {
+        var corazon_aux = conjunto_corazones_delfin[total_corazones_delfin - 1];
+        corazon_aux.disableBody(true, true);
+        total_corazones_delfin -= 1;
+    }
+
+    if(vidasOso == 0)
+    {
+      oso.disableBody(true, true);
+    }
+    if(vidasMono == 0)
+    {
+      mono.disableBody(true, true);
+    }
+    if(vidasDelfin == 0)
+    {
+      delfin.disableBody(true, true);
+    }
+
+    if(vida_fabrica <= 0 || (vidasDelfin == 0 && vidasMono == 0 && vidasOso == 0))
+    {
+      bg_music.stop();
       this.scene.switch('Menu');
     }
   }

@@ -23,6 +23,7 @@ var total_corazones;
 var basura_caida = false;
 var pop = false;
 var sound_pop;
+var bg_music;
 
 
 export default class MinijuegoDelfin extends Scene {
@@ -41,6 +42,8 @@ export default class MinijuegoDelfin extends Scene {
     cursors = this.input.keyboard.createCursorKeys();
 
     this.sound.add('pop');
+    bg_music = this.sound.add('dolphinMusic');
+    bg_music.play();
 
     //AÑADIR JUGADOR
     player = this.physics.add.image(400, 500, 'delfin');
@@ -172,13 +175,6 @@ export default class MinijuegoDelfin extends Scene {
         }, rand * 1000);
     }
 
-
-    //BOTON PARA VOLVER AL MENU
-
-    const volver = this.add.text(100, 100, 'Volver', { fill: '#0f0' });
-    volver.setInteractive();
-    volver.on('pointerup', () => this.scene.switch('Menu'));
-
   }
   
   update (time, delta) {
@@ -296,6 +292,7 @@ export default class MinijuegoDelfin extends Scene {
     //PERDER PARTIDA
     if(vidasDelfin == 0)
     {
+      bg_music.stop();
        this.scene.switch('Menu');
     }
   }

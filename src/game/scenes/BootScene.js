@@ -2,7 +2,7 @@ import {Scene} from 'phaser'
 import sky from '@/game/assets/sky.png';
 import bomb from '@/game/assets/bomb.png';
 import oso from '@/game/assets/oso.png';
-import platform from '@/game/assets/platform.jpg';
+import platform from '@/game/assets/platform.png';
 import delfin from '@/game/assets/delfin.png';
 import projectile from '@/game/assets/disparo.png';
 import turtle from '@/game/assets/tortuga.png';
@@ -26,11 +26,14 @@ import menu from '@/game/assets/menu.png';
 import dolphin from '@/game/assets/dolphin.png';
 import bear from '@/game/assets/bear.png';
 import monkeys from '@/game/assets/monkeys.png';
+import poti from '@/game/assets/Poti.png';
 import fabric from '@/game/assets/fabric.png';
 import pop from '@/game/assets/pop.mp3';
 import music from '@/game/assets/music.mp3';
 import osoMusic from '@/game/assets/osoMusic.mp3';
-
+import dolphinMusic from '@/game/assets/dolphinMusic.mp3';
+import monkeysMusic from '@/game/assets/monkeysMusic.mp3';
+import finalMusic from '@/game/assets/finalMusic.mp3';
 
 export default class BootScene extends Scene {
     constructor() {
@@ -62,6 +65,7 @@ export default class BootScene extends Scene {
         this.load.image('lenyador', lenyador);
         this.load.image('enemigo', enemigo);
         this.load.image('menu', menu);
+        this.load.image('poti', poti);
         this.load.spritesheet('dolphin', dolphin, { frameWidth: 433, frameHeight: 86 } );
         this.load.spritesheet('fabric', fabric, { frameWidth: 433, frameHeight: 86 } );
         this.load.spritesheet('monkeys', monkeys, { frameWidth: 433, frameHeight: 86 } );
@@ -69,6 +73,9 @@ export default class BootScene extends Scene {
         this.load.audio('pop', pop)
         this.load.audio('music', music);
         this.load.audio('osoMusic', osoMusic);
+        this.load.audio('dolphinMusic', dolphinMusic);
+        this.load.audio('monkeysMusic', monkeysMusic);
+        this.load.audio('finalMusic', finalMusic);
     }
 
     create() { 

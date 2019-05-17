@@ -39,7 +39,7 @@ export default class MinijuegoOso extends Scene {
     vY = 30;
 
     // Puntuación
-    text = this.add.text(32,32, 'Score: 0');
+    text = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#000' });
 
     // Creacion plataformas
     platformsf = this.physics.add.group({immovable: true});
@@ -50,17 +50,17 @@ export default class MinijuegoOso extends Scene {
     for (var f = 0; f < 3; f++)
     {
       var x = Phaser.Math.RND.between(0, 800);
-      platformsf.create(x, 150, 'platform').setScale(0.4);
+      platformsf.create(x, 150, 'platform');
     }
     for (var s = 0; s < 3; s++)
     {
       var x = Phaser.Math.RND.between(0, 800);
-      platformss.create(x, 350, 'platform').setScale(0.4);
+      platformss.create(x, 350, 'platform');
     }
     for (var t = 0; t < 3; t++)
     {
       var x = Phaser.Math.RND.between(0, 800);
-      platformst.create(x, 550, 'platform').setScale(0.4);
+      platformst.create(x, 550, 'platform');
     }
     
     // Creacion jugador
@@ -103,7 +103,7 @@ export default class MinijuegoOso extends Scene {
 
   update (time, delta) {
     // Actualizar score
-    text.setText('Score: ' + score/100000);
+    text.setText('Score: ' + Math.round(score / 100000));
     cd += 1;
     score += 1000;
     //score = Math.round(time / 1000);
