@@ -34,6 +34,7 @@ import osoMusic from '@/game/assets/osoMusic.mp3';
 import dolphinMusic from '@/game/assets/dolphinMusic.mp3';
 import monkeysMusic from '@/game/assets/monkeysMusic.mp3';
 import finalMusic from '@/game/assets/finalMusic.mp3';
+import collectSound from '@/game/assets/collect.mp3';
 
 export default class BootScene extends Scene {
     constructor() {
@@ -76,6 +77,7 @@ export default class BootScene extends Scene {
         this.load.audio('dolphinMusic', dolphinMusic);
         this.load.audio('monkeysMusic', monkeysMusic);
         this.load.audio('finalMusic', finalMusic);
+        this.load.audio('collectSound', collectSound);
     }
 
     create() { 

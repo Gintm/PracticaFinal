@@ -22,7 +22,7 @@ var incremento_dificultad = 0;
 var total_corazones;
 var basura_caida = false;
 var pop = false;
-var sound_pop;
+var active_collect = false;
 var bg_music;
 
 
@@ -42,6 +42,7 @@ export default class MinijuegoDelfin extends Scene {
     cursors = this.input.keyboard.createCursorKeys();
 
     this.sound.add('pop');
+    this.sound.add('collectSound');
     bg_music = this.sound.add('dolphinMusic');
     bg_music.play();
 
@@ -93,12 +94,26 @@ export default class MinijuegoDelfin extends Scene {
     {
         tortugas.disableBody(true, true);
         score += 1000000;
+        active_collect = true;
 
         setTimeout(function(){ 
           var pos_y = Phaser.Math.RND.between(0, 600);
           tortugas.enableBody(true, 0, pos_y, true, true);
         }, rand * 1000);
     }
+
+    this.time.addEvent({ duration: 2000,
+      repeat: -1,
+      delay: -2000,
+      callBackScope: this,
+      callback: function(){
+        if(active_collect)
+        {
+          that.sound.play('collectSound', {volume: 15});
+          active_collect = false;
+        }
+      }
+    })
 
     //AÑADIR BASURA
     basura = this.physics.add.group();
@@ -136,7 +151,7 @@ export default class MinijuegoDelfin extends Scene {
     }
 
     //BALA GOLPEA BASURA Y A TORTUGAS
-    this.sound_pop = this.time.addEvent({
+      this.time.addEvent({
       duration: 2000,
       repeat: -1,
       delay: -2000,

@@ -29,6 +29,7 @@ var corazones_delfin;
 var total_corazones_oso;
 var total_corazones_monos;
 var total_corazones_delfin;
+var pop;
 
 
 
@@ -42,6 +43,9 @@ export default class MinijuegoFinal extends Scene {
     let i = this.add.image(400, 300, 'fondo_fabrica').setScale(0.4); //fondo
     console.log(i);
 
+    var that = this;
+
+    this.sound.add('pop');
     bg_music = this.sound.add('finalMusic');
     bg_music.play();
 
@@ -143,6 +147,7 @@ export default class MinijuegoFinal extends Scene {
         enemigo.disableBody(true, true);
         vida_fabrica -= 20;
         bullets_oso.destroy();
+        pop = true;
         
         setTimeout(function(){ 
           enemigo.enableBody(true, randX, 250, true, true);
@@ -153,6 +158,7 @@ export default class MinijuegoFinal extends Scene {
         enemigo.disableBody(true, true);
         vida_fabrica -= 20;
         bullets_delfin.destroy();
+        pop = true;
         
         setTimeout(function(){ 
           enemigo.enableBody(true, randX, 250, true, true);
@@ -163,6 +169,7 @@ export default class MinijuegoFinal extends Scene {
         enemigo.disableBody(true, true);
         vida_fabrica -= 20;
         bullets_mono.destroy();
+        pop = true;
         
         setTimeout(function(){ 
           enemigo.enableBody(true, randX, 250, true, true);
@@ -173,21 +180,39 @@ export default class MinijuegoFinal extends Scene {
     {
       bullets_enemigos.destroy();
       vidasOso -= 1;
+      pop = true;
     }
 
     function get_hit_mono (oso, bullets_enemigos)
     {
       bullets_enemigos.destroy();
       vidasMono -= 1;
+      pop = true;
     }
 
     function get_hit_delfin (oso, bullets_enemigos)
     {
       bullets_enemigos.destroy();
       vidasDelfin -= 1;
+      pop = true;
     }
 
+    this.time.addEvent({
+      duration: 2000,
+      repeat: -1,
+      delay: -2000,
+      callBackScope: this,
+      callback: function(){
+        if(pop == true)
+        {
+          that.sound.play('pop');
+          pop = false;
+        }
+      }
+    })
   }
+
+  
 
   update (time, delta) {
 

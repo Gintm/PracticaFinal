@@ -23,6 +23,7 @@ var score = 0;
 var lastFired = 0;
 var rand;
 var bg_music;
+var pop;
 
 export default class MinijuegoMonos extends Scene {
   constructor () {
@@ -36,7 +37,9 @@ export default class MinijuegoMonos extends Scene {
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '24px', fill: '#000' }); //Formato del Score
     cursors = this.input.keyboard.createCursorKeys(); //Inicializacion del input
     var rand = Math.floor(Math.random() * (max - min + 1) + min); //Variable con valor aleatorio
+    var that = this;
 
+    this.sound.add('pop');
     bg_music = this.sound.add('monkeysMusic');
     bg_music.play();
 
@@ -113,11 +116,13 @@ export default class MinijuegoMonos extends Scene {
     }
     
     //Disparo daño
+
     this.physics.add.collider(cocos,enemigo,golpe,null,this);
     function golpe (cocos, enemigo)
     {
       enemigo.disableBody(true, true);
       cocos.destroy();
+      pop = true;
         setTimeout(function(){ 
           //Variable aleatoria para decidir si el enemigo saldra por el carril derecho o el izquierdo
           var rn = Phaser.Math.RND.between(0, 1);
@@ -129,6 +134,21 @@ export default class MinijuegoMonos extends Scene {
           enemigo.enableBody(true, pos, 0, true, true);
         }, 2000);
     }
+
+    this.time.addEvent({
+      duration: 2000,
+      repeat: -1,
+      delay: -2000,
+      callBackScope: this,
+      callback: function(){
+        if(pop == true)
+        {
+          that.sound.play('pop');
+          pop = false;
+        }
+      }
+    })
+
     this.physics.add.collider(cocos, platanos, conlecta, null, this);
     function conlecta (cocos, platanos)
     {

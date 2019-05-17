@@ -16,6 +16,7 @@ var score;
 var randX;
 var randY;
 var bg_music;
+var active_collect;
 
 
 export default class MinijuegoOso extends Scene {
@@ -28,6 +29,9 @@ export default class MinijuegoOso extends Scene {
     let i = this.add.image(400, 300, 'fondo_oso').setScale(0.6); //fondo
     console.log(i);
 
+    var that = this;
+
+    this.sound.add('collectSound');
     bg_music = this.sound.add('osoMusic');
     bg_music.play();
 
@@ -90,8 +94,8 @@ export default class MinijuegoOso extends Scene {
     function collect(player, ositos)
     {
       ositos.disableBody(true, true);
-      
       score += 1000000;
+      active_collect = true;
     
       setTimeout(function(){
         var pos_y = Phaser.Math.RND.between(50,550);
@@ -99,6 +103,19 @@ export default class MinijuegoOso extends Scene {
         ositos.enableBody(true, pos_x, pos_y, true, true);
       }, 5000);
     }
+
+    this.time.addEvent({ duration: 2000,
+      repeat: -1,
+      delay: -2000,
+      callBackScope: this,
+      callback: function(){
+        if(active_collect)
+        {
+          that.sound.play('collectSound' , {volume: 15});
+          active_collect = false;
+        }
+      }
+    })
   }
 
   update (time, delta) {
