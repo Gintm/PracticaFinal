@@ -123,7 +123,6 @@ export default class MinijuegoOso extends Scene {
     text.setText('Score: ' + Math.round(score / 100000));
     cd += 1;
     score += 1000;
-    //score = Math.round(time / 1000);
 
     // Cursores
     if (cursors.left.isDown)

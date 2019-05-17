@@ -30,6 +30,7 @@ var total_corazones_oso;
 var total_corazones_monos;
 var total_corazones_delfin;
 var pop;
+var text;
 
 
 
@@ -40,10 +41,12 @@ export default class MinijuegoFinal extends Scene {
 
   create () {
     console.log("Starting MinijuegoFinal ...");
-    let i = this.add.image(400, 300, 'fondo_fabrica').setScale(0.4); //fondo
+    let i = this.add.image(400, 300, 'fondo_fabrica').setScale(0.57); //fondo
     console.log(i);
 
     var that = this;
+
+    text = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#fff' });
 
     this.sound.add('pop');
     bg_music = this.sound.add('finalMusic');
@@ -129,10 +132,18 @@ export default class MinijuegoFinal extends Scene {
 
     enemigo = this.physics.add.group({immovable: true});
     
-    for(var l = 0; l <= 5; l++)
+    for(var l = 0; l <= 3; l++)
     {
       var x = Phaser.Math.RND.between(0, 800);
       enemigo.create(x, 250, 'enemigo').setScale(0.07);
+      var bullet = bullets_enemigos.get();
+      if(bullet)
+      {
+        var enemigo_long = enemigo.getLength();
+        var rand = Phaser.Math.RND.between(0, enemigo_long - 1)
+        bullet.fire(enemigo.getChildren()[rand].x, enemigo.getChildren()[rand].y);
+      }
+     
     }
 
     this.physics.add.collider(enemigo, bullets_oso, hit_oso, null, this);
@@ -218,8 +229,10 @@ export default class MinijuegoFinal extends Scene {
 
     inc += 1;
 
+    text.setText('Vida fabrica: ' + vida_fabrica);
 
-    if (/*estat == "delfin" &&*/ time > cd && cursors.up.isDown)
+
+    if (/*estat == "delfin" &&*/ time > cd && cursors.up.isDown && vidasDelfin > 0)
     {
         var bullet = bullets_delfin.get();
 
@@ -231,7 +244,7 @@ export default class MinijuegoFinal extends Scene {
         //estat = "mono";
         
     }
-    else if (/*estat == "oso" &&*/ time > cd && cursors.left.isDown)
+    else if (/*estat == "oso" &&*/ time > cd && cursors.left.isDown && vidasOso > 0)
     {
         var bullet = bullets_oso.get();
 
@@ -242,7 +255,7 @@ export default class MinijuegoFinal extends Scene {
         cd = time + 300;
         //estat = "delfin";
     }
-    else if (/*estat == 'mono' &&*/ time > cd && cursors.right.isDown)
+    else if (/*estat == 'mono' &&*/ time > cd && cursors.right.isDown && vidasMono > 0)
     {
       var bullet = bullets_mono.get();
 
@@ -254,7 +267,9 @@ export default class MinijuegoFinal extends Scene {
       //estat = "oso";
     }
 
-    if(inc % 200 == 0)
+    
+
+    if(inc % 1000 == 0)
     {
       randX = Phaser.Math.RND.between(50, 750);
       enemigo.create(randX, 250, 'enemigo').setScale(0.07);

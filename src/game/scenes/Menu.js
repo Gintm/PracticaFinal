@@ -1,8 +1,8 @@
 import { Scene } from 'phaser';
 
-var clickedOso = false;
-var clickedDelfin = false;
-var clickedMonos = false;
+var clickedOso = true;
+var clickedDelfin = true;
+var clickedMonos = true;
 var btnOso;
 var btnDlf;
 var btnMono;
